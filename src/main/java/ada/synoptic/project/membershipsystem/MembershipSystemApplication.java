@@ -2,7 +2,7 @@ package ada.synoptic.project.membershipsystem;
 
 import ada.synoptic.project.membershipsystem.domain.*;
 import ada.synoptic.project.membershipsystem.rest.MemberController;
-import ada.synoptic.project.membershipsystem.rest.resource.CreateNewMemberRequest;
+import ada.synoptic.project.membershipsystem.rest.resource.CreateNewEmployeeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MembershipSystemApplication implements CommandLineRunner {
 
     @Autowired
-    private MemberRepository repository;
+    private EmployeeRepository repository;
 
     public static void main(String[] args) {
         SpringApplication.run(MembershipSystemApplication.class, args);
@@ -23,14 +23,14 @@ public class MembershipSystemApplication implements CommandLineRunner {
         repository.deleteAll();
 
         // save a couple of customers
-        repository.save(Member.createNewMemberWithInitialBalance("Alice", "Smith", 30));
-        repository.save(Member.createNewMember("Bob", "Smith"));
+        repository.save(Employee.createNewMemberWithInitialBalance("Alice", "Smith", 30));
+        repository.save(Employee.createNewMember("Bob", "Smith"));
 
         // fetch all customers
         System.out.println("Customers found with findAll():");
         System.out.println("-------------------------------");
-        for (Member member : repository.findAll()) {
-            System.out.println(member);
+        for (Employee employee : repository.findAll()) {
+            System.out.println(employee);
         }
         System.out.println();
 
@@ -43,21 +43,21 @@ public class MembershipSystemApplication implements CommandLineRunner {
 
         System.out.println("Customers found with findByLastName('Smith'):");
         System.out.println("--------------------------------");
-        for (Member customer : repository.findByLastName("Smith")) {
+        for (Employee customer : repository.findByLastName("Smith")) {
             System.out.println(customer);
         }
 
-        System.out.println("Customers found with findByMemberId(1):");
+        System.out.println("Customers found with findByEmployeeId(1):");
         System.out.println("--------------------------------");
-        System.out.print(repository.findByMemberId(1));
+        System.out.print(repository.findByEmployeeId(1));
 
         System.out.println("Update member 2's balance");
-        Member updateMember = repository.findByMemberId(2);
-        updateMember.setBalance(10);
-        repository.save(updateMember);
+        Employee updateEmployee = repository.findByEmployeeId(2);
+        updateEmployee.setBalance(10);
+        repository.save(updateEmployee);
         System.out.println("All Members:");
-        for (Member member : repository.findAll()) {
-            System.out.println(member);
+        for (Employee employee : repository.findAll()) {
+            System.out.println(employee);
         }
 
         MemberClient memberClient = new MemberClientImpl(repository);
@@ -65,8 +65,8 @@ public class MembershipSystemApplication implements CommandLineRunner {
         MemberController controller = new MemberController(memberService);
 
 
-        CreateNewMemberRequest createNewMemberRequest = new CreateNewMemberRequest("John", "Nelson");
-        controller.addNewMember(createNewMemberRequest);
+        CreateNewEmployeeRequest createNewEmployeeRequest = new CreateNewEmployeeRequest("John", "Nelson");
+        controller.addNewMember(createNewEmployeeRequest);
 
     }
 

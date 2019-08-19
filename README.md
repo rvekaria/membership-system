@@ -1,6 +1,9 @@
 # Membership System
 
 ## Build
+This project is built using java 11. Ensure your JAVA_HOME environment variable is set appropriately:  
+`export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home`
+
 Build the project by running `mvn clean install`
 
 ## Run

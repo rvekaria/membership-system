@@ -1,8 +1,8 @@
 package ada.synoptic.project.membershipsystem.rest;
 
-import ada.synoptic.project.membershipsystem.domain.Member;
+import ada.synoptic.project.membershipsystem.domain.Employee;
 import ada.synoptic.project.membershipsystem.domain.MemberService;
-import ada.synoptic.project.membershipsystem.rest.resource.CreateNewMemberRequest;
+import ada.synoptic.project.membershipsystem.rest.resource.CreateNewEmployeeRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,15 +15,15 @@ public class MemberController {
     }
 
     @CrossOrigin()
-    @GetMapping("/member")
-    public Member getMember(@RequestParam("memberId") String memberId) {
-        return memberService.getMember(memberId);
+    @GetMapping("/employee")
+    public Employee getMember(@RequestParam("employeeId") String employeeId) {
+        return memberService.getEmployee(employeeId);
     }
 
     @CrossOrigin()
-    @PostMapping("/newMember")
-    public Member addNewMember(@RequestBody CreateNewMemberRequest CreateNewMemberRequest) {
-        return memberService.addNewMember(CreateNewMemberRequest);
+    @PostMapping("/newEmployee")
+    public Employee addNewMember(@RequestBody CreateNewEmployeeRequest CreateNewEmployeeRequest) {
+        return memberService.addNewEmployee(CreateNewEmployeeRequest);
     }
 
 }

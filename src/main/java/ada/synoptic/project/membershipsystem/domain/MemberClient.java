@@ -1,9 +1,9 @@
 package ada.synoptic.project.membershipsystem.domain;
 
-import ada.synoptic.project.membershipsystem.rest.resource.CreateNewMemberRequest;
+import ada.synoptic.project.membershipsystem.rest.resource.CreateNewEmployeeRequest;
 
 public interface MemberClient {
-    Member getMember(String memberId);
+    Employee getEmployee(String employeeId);
 
-    Member addNewMember(CreateNewMemberRequest CreateNewMemberRequest);
+    Employee addNewEmployee(CreateNewEmployeeRequest CreateNewEmployeeRequest);
 }

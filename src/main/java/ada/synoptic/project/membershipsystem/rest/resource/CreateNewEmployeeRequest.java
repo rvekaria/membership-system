@@ -2,12 +2,12 @@ package ada.synoptic.project.membershipsystem.rest.resource;
 
 import java.util.Objects;
 
-public class CreateNewMemberRequest {
+public class CreateNewEmployeeRequest {
 
     private String firstName;
     private String lastName;
 
-    public CreateNewMemberRequest(String firstName, String lastName) {
+    public CreateNewEmployeeRequest(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -32,7 +32,7 @@ public class CreateNewMemberRequest {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CreateNewMemberRequest that = (CreateNewMemberRequest) o;
+        CreateNewEmployeeRequest that = (CreateNewEmployeeRequest) o;
         return Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName);
     }
