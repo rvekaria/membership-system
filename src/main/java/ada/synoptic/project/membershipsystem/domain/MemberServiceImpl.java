@@ -18,7 +18,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Employee addNewEmployee(RegisterNewEmployeeRequest RegisterNewEmployeeRequest) {
-        return memberClient.addNewEmployee(RegisterNewEmployeeRequest);
+    public Employee addNewEmployee(RegisterNewEmployeeRequest registerNewEmployeeRequest) {
+        return memberClient.addNewEmployee(registerNewEmployeeRequest);
     }
 }

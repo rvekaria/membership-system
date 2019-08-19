@@ -23,8 +23,8 @@ public class MembershipSystemApplication implements CommandLineRunner {
         repository.deleteAll();
 
         // save a couple of customers
-        repository.save(Employee.createNewMemberWithInitialBalance("Alice", "Smith", "Alice.Smith@company.com", "154325", "1234", 30.0));
-        repository.save(Employee.createNewMember("Bob", "Smith", "Bob.Smith@company.com", "14513", "1233"));
+        repository.save(Employee.createNewMemberWithInitialBalance("13285b019875f09824370b591", "1","Alice", "Smith", "Alice.Smith@company.com", "154325", "1234", 30.0));
+        repository.save(Employee.createNewMember("kho8fyh917435ohcu813", "2","Bob", "Smith", "Bob.Smith@company.com", "14513", "1233"));
 
         // fetch all customers
         System.out.println("Customers found with findAll():");
@@ -47,12 +47,12 @@ public class MembershipSystemApplication implements CommandLineRunner {
             System.out.println(customer);
         }
 
-        System.out.println("Customers found with findByEmployeeId(1):");
+        System.out.println("Customers found with findByEmployeeId('1'):");
         System.out.println("--------------------------------");
-        System.out.print(repository.findByEmployeeId(1));
+        System.out.println(repository.findByEmployeeId("1"));
 
         System.out.println("Update member 2's balance");
-        Employee updateEmployee = repository.findByEmployeeId(2);
+        Employee updateEmployee = repository.findByEmployeeId("2");
         updateEmployee.setBalance(10);
         repository.save(updateEmployee);
         System.out.println("All Members:");
@@ -65,7 +65,7 @@ public class MembershipSystemApplication implements CommandLineRunner {
         MemberController controller = new MemberController(memberService);
 
 
-        RegisterNewEmployeeRequest registerNewEmployeeRequest = new RegisterNewEmployeeRequest(3,"John", "Nelson", "John.Nelson@company.com", "312512", "5431");
+        RegisterNewEmployeeRequest registerNewEmployeeRequest = new RegisterNewEmployeeRequest("aeijfcun289437nfqew", "3","John", "Nelson", "John.Nelson@company.com", "312512", "5431");
         controller.addNewMember(registerNewEmployeeRequest);
 
     }
