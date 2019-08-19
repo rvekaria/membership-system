@@ -2,7 +2,7 @@ package ada.synoptic.project.membershipsystem;
 
 import ada.synoptic.project.membershipsystem.domain.*;
 import ada.synoptic.project.membershipsystem.rest.MemberController;
-import ada.synoptic.project.membershipsystem.rest.resource.CreateNewEmployeeRequest;
+import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -23,8 +23,8 @@ public class MembershipSystemApplication implements CommandLineRunner {
         repository.deleteAll();
 
         // save a couple of customers
-        repository.save(Employee.createNewMemberWithInitialBalance("Alice", "Smith", 30));
-        repository.save(Employee.createNewMember("Bob", "Smith"));
+        repository.save(Employee.createNewMemberWithInitialBalance("Alice", "Smith", "Alice.Smith@company.com", "154325", "1234", 30.0));
+        repository.save(Employee.createNewMember("Bob", "Smith", "Bob.Smith@company.com", "14513", "1233"));
 
         // fetch all customers
         System.out.println("Customers found with findAll():");
@@ -65,8 +65,8 @@ public class MembershipSystemApplication implements CommandLineRunner {
         MemberController controller = new MemberController(memberService);
 
 
-        CreateNewEmployeeRequest createNewEmployeeRequest = new CreateNewEmployeeRequest("John", "Nelson");
-        controller.addNewMember(createNewEmployeeRequest);
+        RegisterNewEmployeeRequest registerNewEmployeeRequest = new RegisterNewEmployeeRequest(3,"John", "Nelson", "John.Nelson@company.com", "312512", "5431");
+        controller.addNewMember(registerNewEmployeeRequest);
 
     }
 

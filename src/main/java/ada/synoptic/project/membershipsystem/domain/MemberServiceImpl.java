@@ -1,6 +1,6 @@
 package ada.synoptic.project.membershipsystem.domain;
 
-import ada.synoptic.project.membershipsystem.rest.resource.CreateNewEmployeeRequest;
+import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +18,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Employee addNewEmployee(CreateNewEmployeeRequest CreateNewEmployeeRequest) {
-        return memberClient.addNewEmployee(CreateNewEmployeeRequest);
+    public Employee addNewEmployee(RegisterNewEmployeeRequest RegisterNewEmployeeRequest) {
+        return memberClient.addNewEmployee(RegisterNewEmployeeRequest);
     }
 }

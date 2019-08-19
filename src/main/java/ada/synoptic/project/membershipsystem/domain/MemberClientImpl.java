@@ -1,6 +1,6 @@
 package ada.synoptic.project.membershipsystem.domain;
 
-import ada.synoptic.project.membershipsystem.rest.resource.CreateNewEmployeeRequest;
+import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,8 +18,14 @@ public class MemberClientImpl implements MemberClient {
     }
 
     @Override
-    public Employee addNewEmployee(CreateNewEmployeeRequest CreateNewEmployeeRequest) {
-        Employee newEmployee = Employee.createNewMember(CreateNewEmployeeRequest.getFirstName(), CreateNewEmployeeRequest.getLastName());
+    public Employee addNewEmployee(RegisterNewEmployeeRequest RegisterNewEmployeeRequest) {
+        Employee newEmployee = Employee.createNewMember(
+                RegisterNewEmployeeRequest.getFirstName(),
+                RegisterNewEmployeeRequest.getLastName(),
+                RegisterNewEmployeeRequest.getEmail(),
+                RegisterNewEmployeeRequest.getMobileNo(),
+                RegisterNewEmployeeRequest.getPin()
+        );
         repository.save(newEmployee);
         return newEmployee;
     }
