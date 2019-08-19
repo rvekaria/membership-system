@@ -1,5 +1,8 @@
 package ada.synoptic.project.membershipsystem.rest.resource;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 public class RegisterNewEmployeeRequest {
@@ -12,7 +15,14 @@ public class RegisterNewEmployeeRequest {
     private String mobileNo;
     private String pin;
 
-    public RegisterNewEmployeeRequest(String cardNumber, String employeeId, String firstName, String lastName, String email, String mobileNo, String pin) {
+    @JsonCreator
+    public RegisterNewEmployeeRequest(@JsonProperty("cardNumber") String cardNumber,
+                                      @JsonProperty("employeeId") String employeeId,
+                                      @JsonProperty("firstName") String firstName,
+                                      @JsonProperty("lastName") String lastName,
+                                      @JsonProperty("email") String email,
+                                      @JsonProperty("mobileNo") String mobileNo,
+                                      @JsonProperty("pin") String pin) {
         this.cardNumber = cardNumber;
         this.employeeId = employeeId;
         this.firstName = firstName;
@@ -66,7 +76,7 @@ public class RegisterNewEmployeeRequest {
     public String toString() {
         return "RegisterNewEmployeeRequest{" +
                 "cardNumber='" + cardNumber + '\'' +
-                ", employeeId=" + employeeId +
+                ", employeeId='" + employeeId + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
@@ -80,8 +90,8 @@ public class RegisterNewEmployeeRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RegisterNewEmployeeRequest that = (RegisterNewEmployeeRequest) o;
-        return employeeId == that.employeeId &&
-                Objects.equals(cardNumber, that.cardNumber) &&
+        return Objects.equals(cardNumber, that.cardNumber) &&
+                Objects.equals(employeeId, that.employeeId) &&
                 Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName) &&
                 Objects.equals(email, that.email) &&
@@ -94,4 +104,21 @@ public class RegisterNewEmployeeRequest {
 
         return Objects.hash(cardNumber, employeeId, firstName, lastName, email, mobileNo, pin);
     }
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
+
 }

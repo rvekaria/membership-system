@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 public interface MemberService {
     Employee getEmployee(String employeeId);
 
-    Employee addNewEmployee(RegisterNewEmployeeRequest RegisterNewEmployeeRequest);
+    Employee registerNewEmployee(RegisterNewEmployeeRequest RegisterNewEmployeeRequest);
 }

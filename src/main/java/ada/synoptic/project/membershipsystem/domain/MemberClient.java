@@ -5,5 +5,5 @@ import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRe
 public interface MemberClient {
     Employee getEmployee(String employeeId);
 
-    Employee addNewEmployee(RegisterNewEmployeeRequest RegisterNewEmployeeRequest);
+    Employee registerNewEmployee(RegisterNewEmployeeRequest RegisterNewEmployeeRequest);
 }

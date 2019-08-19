@@ -80,20 +80,6 @@ public class Employee {
     }
 
     @Override
-    public String toString() {
-        return "Employee{" +
-                "cardNumber='" + cardNumber + '\'' +
-                ", employeeId='" + employeeId + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", mobileNo='" + mobileNo + '\'' +
-                ", pin='" + pin + '\'' +
-                ", balance=" + balance +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -112,6 +98,20 @@ public class Employee {
     public int hashCode() {
 
         return Objects.hash(cardNumber, employeeId, firstName, lastName, email, mobileNo, pin, balance);
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "cardNumber='" + cardNumber + '\'' +
+                ", employeeId='" + employeeId + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", mobileNo='" + mobileNo + '\'' +
+                ", pin='" + pin + '\'' +
+                ", balance=" + balance +
+                '}';
     }
 
     public String getCardNumber() {
