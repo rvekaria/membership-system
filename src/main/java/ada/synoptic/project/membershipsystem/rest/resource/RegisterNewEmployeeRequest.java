@@ -3,14 +3,17 @@ package ada.synoptic.project.membershipsystem.rest.resource;
 import java.util.Objects;
 
 public class RegisterNewEmployeeRequest {
-    private final int employeeId;
+
+    private String cardNumber;
+    private String employeeId;
     private String firstName;
     private String lastName;
-    private final String email;
-    private final String mobileNo;
-    private final String pin;
+    private String email;
+    private String mobileNo;
+    private String pin;
 
-    public RegisterNewEmployeeRequest(int employeeId, String firstName, String lastName, String email, String mobileNo, String pin) {
+    public RegisterNewEmployeeRequest(String cardNumber, String employeeId, String firstName, String lastName, String email, String mobileNo, String pin) {
+        this.cardNumber = cardNumber;
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -19,7 +22,7 @@ public class RegisterNewEmployeeRequest {
         this.pin = pin;
     }
 
-    public int getEmployeeId() {
+    public String getEmployeeId() {
         return employeeId;
     }
 
@@ -51,10 +54,19 @@ public class RegisterNewEmployeeRequest {
         return pin;
     }
 
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
     @Override
     public String toString() {
         return "RegisterNewEmployeeRequest{" +
-                "employeeId=" + employeeId +
+                "cardNumber='" + cardNumber + '\'' +
+                ", employeeId=" + employeeId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
@@ -69,6 +81,7 @@ public class RegisterNewEmployeeRequest {
         if (o == null || getClass() != o.getClass()) return false;
         RegisterNewEmployeeRequest that = (RegisterNewEmployeeRequest) o;
         return employeeId == that.employeeId &&
+                Objects.equals(cardNumber, that.cardNumber) &&
                 Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName) &&
                 Objects.equals(email, that.email) &&
@@ -79,6 +92,6 @@ public class RegisterNewEmployeeRequest {
     @Override
     public int hashCode() {
 
-        return Objects.hash(employeeId, firstName, lastName, email, mobileNo, pin);
+        return Objects.hash(cardNumber, employeeId, firstName, lastName, email, mobileNo, pin);
     }
 }

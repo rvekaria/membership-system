@@ -14,17 +14,19 @@ public class MemberClientImpl implements MemberClient {
 
     @Override
     public Employee getEmployee(String employeeId) {
-        return repository.findByEmployeeId(Integer.parseInt(employeeId));
+        return repository.findByEmployeeId(employeeId);
     }
 
     @Override
-    public Employee addNewEmployee(RegisterNewEmployeeRequest RegisterNewEmployeeRequest) {
+    public Employee addNewEmployee(RegisterNewEmployeeRequest registerNewEmployeeRequest) {
         Employee newEmployee = Employee.createNewMember(
-                RegisterNewEmployeeRequest.getFirstName(),
-                RegisterNewEmployeeRequest.getLastName(),
-                RegisterNewEmployeeRequest.getEmail(),
-                RegisterNewEmployeeRequest.getMobileNo(),
-                RegisterNewEmployeeRequest.getPin()
+                registerNewEmployeeRequest.getCardNumber(),
+                registerNewEmployeeRequest.getEmployeeId(),
+                registerNewEmployeeRequest.getFirstName(),
+                registerNewEmployeeRequest.getLastName(),
+                registerNewEmployeeRequest.getEmail(),
+                registerNewEmployeeRequest.getMobileNo(),
+                registerNewEmployeeRequest.getPin()
         );
         repository.save(newEmployee);
         return newEmployee;

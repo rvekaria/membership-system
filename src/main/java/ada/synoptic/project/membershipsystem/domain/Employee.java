@@ -3,22 +3,22 @@ package ada.synoptic.project.membershipsystem.domain;
 import org.springframework.data.annotation.Id;
 
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Employee {
 
-    private static final AtomicInteger count = new AtomicInteger(0);
     @Id
-    private int employeeId;
+    private String cardNumber;
+    private String employeeId;
     private String firstName;
     private String lastName;
-    private final String email;
-    private final String mobileNo;
-    private final String pin;
+    private String email;
+    private String mobileNo;
+    private String pin;
     private double balance;
 
-    private Employee(String firstName, String lastName, String email, String mobileNo, String pin, double balance) {
-        this.employeeId = count.incrementAndGet();
+    private Employee(String cardNumber, String employeeId, String firstName, String lastName, String email, String mobileNo, String pin, double balance) {
+        this.cardNumber = cardNumber;
+        this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -27,19 +27,19 @@ public class Employee {
         this.balance = balance;
     }
 
-    public static Employee createNewMemberWithInitialBalance(String firstName, String lastName, String email, String mobileNo, String pin, double initialBalance) {
-        return new Employee(firstName, lastName, email, mobileNo, pin, initialBalance);
+    public static Employee createNewMemberWithInitialBalance(String cardNumber, String employeeId, String firstName, String lastName, String email, String mobileNo, String pin, double initialBalance) {
+        return new Employee(cardNumber, employeeId, firstName, lastName, email, mobileNo, pin, initialBalance);
     }
 
-    public static Employee createNewMember(String firstName, String lastName, String email, String mobileNo, String pin) {
-        return new Employee(firstName, lastName, email, mobileNo, pin, 0);
+    public static Employee createNewMember(String cardNumber, String employeeId, String firstName, String lastName, String email, String mobileNo, String pin) {
+        return new Employee(cardNumber, employeeId, firstName, lastName, email, mobileNo, pin, 0);
     }
 
-    public int getEmployeeId() {
+    public String getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(int employeeId) {
+    public void setEmployeeId(String employeeId) {
         this.employeeId = employeeId;
     }
 
@@ -82,7 +82,8 @@ public class Employee {
     @Override
     public String toString() {
         return "Employee{" +
-                "employeeId=" + employeeId +
+                "cardNumber='" + cardNumber + '\'' +
+                ", employeeId='" + employeeId + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
@@ -97,8 +98,9 @@ public class Employee {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return employeeId == employee.employeeId &&
-                Double.compare(employee.balance, balance) == 0 &&
+        return Double.compare(employee.balance, balance) == 0 &&
+                Objects.equals(cardNumber, employee.cardNumber) &&
+                Objects.equals(employeeId, employee.employeeId) &&
                 Objects.equals(firstName, employee.firstName) &&
                 Objects.equals(lastName, employee.lastName) &&
                 Objects.equals(email, employee.email) &&
@@ -109,6 +111,10 @@ public class Employee {
     @Override
     public int hashCode() {
 
-        return Objects.hash(employeeId, firstName, lastName, email, mobileNo, pin, balance);
+        return Objects.hash(cardNumber, employeeId, firstName, lastName, email, mobileNo, pin, balance);
+    }
+
+    public String getCardNumber() {
+        return cardNumber;
     }
 }

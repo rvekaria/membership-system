@@ -22,8 +22,8 @@ public class MemberController {
 
     @CrossOrigin()
     @PostMapping("/newEmployee")
-    public Employee addNewMember(@RequestBody RegisterNewEmployeeRequest RegisterNewEmployeeRequest) {
-        return memberService.addNewEmployee(RegisterNewEmployeeRequest);
+    public Employee addNewMember(@RequestBody RegisterNewEmployeeRequest registerNewEmployeeRequest) {
+        return memberService.addNewEmployee(registerNewEmployeeRequest);
     }
 
 }
