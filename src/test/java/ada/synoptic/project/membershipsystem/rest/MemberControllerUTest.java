@@ -69,7 +69,7 @@ public class MemberControllerUTest {
     public void testGetEmployeeEndpointIfNotRegistered() throws Exception {
         //setup
         String cardId = "12345678abcdefgh";
-        String expectedError = "This card is not registered!";
+        String expectedError = "This card is not registered. Please register first to use the service";
 
         Mockito.when(memberService.getEmployeeByCardId(Mockito.any(String.class))).thenThrow(EmployeeNotFoundException.class);
 

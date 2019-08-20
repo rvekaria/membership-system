@@ -23,7 +23,7 @@ public class MemberController {
         try {
             return memberService.getEmployeeByCardId(cardId);
         } catch (EmployeeNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This card is not registered!", e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This card is not registered. Please register first to use the service", e);
         }
     }
 
