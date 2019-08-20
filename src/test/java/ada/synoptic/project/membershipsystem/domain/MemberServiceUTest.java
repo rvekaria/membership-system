@@ -18,7 +18,7 @@ public class MemberServiceUTest {
         MemberService memberService = new MemberServiceImpl(memberClient);
 
         String employeeId = "1";
-        String cardId = "flksdunro7q4ybcor";
+        String cardId = "6bb6b4c2c28b11e9";
         String firstName = "First";
         String lastName = "Last";
         String email = "Email";
@@ -26,10 +26,10 @@ public class MemberServiceUTest {
         String pin = "8628";
         Employee expectedEmployee = Employee.createNewMember(cardId, employeeId, firstName, lastName, email, mobileNo, pin);
 
-        Mockito.when(memberClient.getEmployee(employeeId)).thenReturn(expectedEmployee);
+        Mockito.when(memberClient.getEmployeeByCardId(cardId)).thenReturn(expectedEmployee);
 
         //act
-        Employee actualEmployee = memberService.getEmployee(employeeId);
+        Employee actualEmployee = memberService.getEmployeeByCardId(cardId);
 
         //assert
         assertEquals(expectedEmployee, actualEmployee);
@@ -43,7 +43,7 @@ public class MemberServiceUTest {
         MemberService memberService = new MemberServiceImpl(memberClient);
 
         String employeeId = "1";
-        String cardId = "flksdunro7q4ybcor";
+        String cardId = "6bb6b4c2c28b11e9";
         String firstName = "First";
         String lastName = "Last";
         String email = "Email";

@@ -16,8 +16,8 @@ public class MemberController {
 
     @CrossOrigin()
     @GetMapping("/employee")
-    public Employee getEmployee(@RequestParam("employeeId") String employeeId) {
-        return memberService.getEmployee(employeeId);
+    public Employee getEmployeeByCardId(@RequestParam("cardId") String cardId) {
+        return memberService.getEmployeeByCardId(cardId);
     }
 
     @CrossOrigin()

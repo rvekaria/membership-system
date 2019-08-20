@@ -1,5 +1,7 @@
 package ada.synoptic.project.membershipsystem.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 
 import java.util.Objects;
@@ -35,6 +37,14 @@ public class Employee {
         return new Employee(cardNumber, employeeId, firstName, lastName, email, mobileNo, pin, 0);
     }
 
+    public String getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
+    }
+
     public String getEmployeeId() {
         return employeeId;
     }
@@ -63,12 +73,24 @@ public class Employee {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getMobileNo() {
         return mobileNo;
     }
 
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
+    }
+
     public String getPin() {
         return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
     }
 
     public double getBalance() {
@@ -98,23 +120,5 @@ public class Employee {
     public int hashCode() {
 
         return Objects.hash(cardId, employeeId, firstName, lastName, email, mobileNo, pin, balance);
-    }
-
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "cardId='" + cardId + '\'' +
-                ", employeeId='" + employeeId + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", mobileNo='" + mobileNo + '\'' +
-                ", pin='" + pin + '\'' +
-                ", balance=" + balance +
-                '}';
-    }
-
-    public String getCardId() {
-        return cardId;
     }
 }

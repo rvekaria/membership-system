@@ -34,7 +34,7 @@ public class MemberControllerUTest {
     public void testGetEmployeeEndpoint() throws Exception {
         //setup
         String employeeId = "1";
-        String cardId = "flksdunro7q4ybcor";
+        String cardId = "6bb6b4c2c28b11e9";
         String firstName = "First";
         String lastName = "Last";
         String email = "Email";
@@ -42,14 +42,14 @@ public class MemberControllerUTest {
         String pin = "8628";
         Employee employee = Employee.createNewMember(cardId, employeeId, firstName, lastName, email, mobileNo, pin);
 
-        Mockito.when(memberService.getEmployee(employeeId)).thenReturn(employee);
+        Mockito.when(memberService.getEmployeeByCardId(cardId)).thenReturn(employee);
 
         //act
-        mvc.perform(get("/employee?employeeId=" + employeeId)
+        mvc.perform(get("/employee?cardId=" + cardId)
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("employeeId", equalTo(employeeId)))
                 .andExpect(jsonPath("cardId", equalTo(cardId)))
+                .andExpect(jsonPath("employeeId", equalTo(employeeId)))
                 .andExpect(jsonPath("firstName", equalTo(firstName)))
                 .andExpect(jsonPath("lastName", equalTo(lastName)))
                 .andExpect(jsonPath("email", equalTo(email)))
@@ -61,7 +61,7 @@ public class MemberControllerUTest {
     public void testRegisterNewEmployeeEndpoint() throws Exception {
         //setup
         String employeeId = "1";
-        String cardId = "f34shdrlnvt834";
+        String cardId = "6bb6b4c2c28b11e9";
         String firstName = "New";
         String lastName = "Guy";
         String email = "NewEmail";

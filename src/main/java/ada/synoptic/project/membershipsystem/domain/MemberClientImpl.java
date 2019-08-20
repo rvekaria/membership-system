@@ -13,8 +13,8 @@ public class MemberClientImpl implements MemberClient {
     }
 
     @Override
-    public Employee getEmployee(String employeeId) {
-        return repository.findByEmployeeId(employeeId);
+    public Employee getEmployeeByCardId(String cardId) {
+        return repository.findByCardId(cardId);
     }
 
     @Override
