@@ -13,14 +13,14 @@ public class MemberClientImpl implements MemberClient {
     }
 
     @Override
-    public Employee getEmployee(String employeeId) {
-        return repository.findByEmployeeId(employeeId);
+    public Employee getEmployeeByCardId(String cardId) {
+        return repository.findByCardId(cardId);
     }
 
     @Override
-    public Employee addNewEmployee(RegisterNewEmployeeRequest registerNewEmployeeRequest) {
+    public Employee registerNewEmployee(RegisterNewEmployeeRequest registerNewEmployeeRequest) {
         Employee newEmployee = Employee.createNewMember(
-                registerNewEmployeeRequest.getCardNumber(),
+                registerNewEmployeeRequest.getCardId(),
                 registerNewEmployeeRequest.getEmployeeId(),
                 registerNewEmployeeRequest.getFirstName(),
                 registerNewEmployeeRequest.getLastName(),
@@ -28,7 +28,6 @@ public class MemberClientImpl implements MemberClient {
                 registerNewEmployeeRequest.getMobileNo(),
                 registerNewEmployeeRequest.getPin()
         );
-        repository.save(newEmployee);
-        return newEmployee;
+        return repository.save(newEmployee);
     }
 }

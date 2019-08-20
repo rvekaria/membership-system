@@ -13,12 +13,12 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Employee getEmployee(String employeeId) {
-        return memberClient.getEmployee(employeeId);
+    public Employee getEmployeeByCardId(String cardId) {
+        return memberClient.getEmployeeByCardId(cardId);
     }
 
     @Override
-    public Employee addNewEmployee(RegisterNewEmployeeRequest registerNewEmployeeRequest) {
-        return memberClient.addNewEmployee(registerNewEmployeeRequest);
+    public Employee registerNewEmployee(RegisterNewEmployeeRequest registerNewEmployeeRequest) {
+        return memberClient.registerNewEmployee(registerNewEmployeeRequest);
     }
 }

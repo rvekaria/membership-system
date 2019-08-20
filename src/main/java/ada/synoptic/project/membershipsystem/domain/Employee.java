@@ -1,5 +1,7 @@
 package ada.synoptic.project.membershipsystem.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 
 import java.util.Objects;
@@ -7,7 +9,7 @@ import java.util.Objects;
 public class Employee {
 
     @Id
-    private String cardNumber;
+    private String cardId;
     private String employeeId;
     private String firstName;
     private String lastName;
@@ -16,8 +18,8 @@ public class Employee {
     private String pin;
     private double balance;
 
-    private Employee(String cardNumber, String employeeId, String firstName, String lastName, String email, String mobileNo, String pin, double balance) {
-        this.cardNumber = cardNumber;
+    private Employee(String cardId, String employeeId, String firstName, String lastName, String email, String mobileNo, String pin, double balance) {
+        this.cardId = cardId;
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -33,6 +35,14 @@ public class Employee {
 
     public static Employee createNewMember(String cardNumber, String employeeId, String firstName, String lastName, String email, String mobileNo, String pin) {
         return new Employee(cardNumber, employeeId, firstName, lastName, email, mobileNo, pin, 0);
+    }
+
+    public String getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
     }
 
     public String getEmployeeId() {
@@ -63,12 +73,24 @@ public class Employee {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getMobileNo() {
         return mobileNo;
     }
 
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
+    }
+
     public String getPin() {
         return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
     }
 
     public double getBalance() {
@@ -80,26 +102,12 @@ public class Employee {
     }
 
     @Override
-    public String toString() {
-        return "Employee{" +
-                "cardNumber='" + cardNumber + '\'' +
-                ", employeeId='" + employeeId + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", mobileNo='" + mobileNo + '\'' +
-                ", pin='" + pin + '\'' +
-                ", balance=" + balance +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
         return Double.compare(employee.balance, balance) == 0 &&
-                Objects.equals(cardNumber, employee.cardNumber) &&
+                Objects.equals(cardId, employee.cardId) &&
                 Objects.equals(employeeId, employee.employeeId) &&
                 Objects.equals(firstName, employee.firstName) &&
                 Objects.equals(lastName, employee.lastName) &&
@@ -111,10 +119,6 @@ public class Employee {
     @Override
     public int hashCode() {
 
-        return Objects.hash(cardNumber, employeeId, firstName, lastName, email, mobileNo, pin, balance);
-    }
-
-    public String getCardNumber() {
-        return cardNumber;
+        return Objects.hash(cardId, employeeId, firstName, lastName, email, mobileNo, pin, balance);
     }
 }

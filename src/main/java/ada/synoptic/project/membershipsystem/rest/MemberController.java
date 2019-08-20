@@ -16,14 +16,14 @@ public class MemberController {
 
     @CrossOrigin()
     @GetMapping("/employee")
-    public Employee getMember(@RequestParam("employeeId") String employeeId) {
-        return memberService.getEmployee(employeeId);
+    public Employee getEmployeeByCardId(@RequestParam("cardId") String cardId) {
+        return memberService.getEmployeeByCardId(cardId);
     }
 
     @CrossOrigin()
     @PostMapping("/newEmployee")
-    public Employee addNewMember(@RequestBody RegisterNewEmployeeRequest registerNewEmployeeRequest) {
-        return memberService.addNewEmployee(registerNewEmployeeRequest);
+    public Employee registerNewEmployee(@RequestBody RegisterNewEmployeeRequest registerNewEmployeeRequest) {
+        return memberService.registerNewEmployee(registerNewEmployeeRequest);
     }
 
 }

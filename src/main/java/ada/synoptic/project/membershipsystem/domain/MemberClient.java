@@ -3,7 +3,7 @@ package ada.synoptic.project.membershipsystem.domain;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
 
 public interface MemberClient {
-    Employee getEmployee(String employeeId);
+    Employee getEmployeeByCardId(String cardId);
 
-    Employee addNewEmployee(RegisterNewEmployeeRequest RegisterNewEmployeeRequest);
+    Employee registerNewEmployee(RegisterNewEmployeeRequest RegisterNewEmployeeRequest);
 }
