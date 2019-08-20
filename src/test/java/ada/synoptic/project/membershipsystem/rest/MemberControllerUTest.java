@@ -2,6 +2,7 @@ package ada.synoptic.project.membershipsystem.rest;
 
 import ada.synoptic.project.membershipsystem.domain.Employee;
 import ada.synoptic.project.membershipsystem.domain.MemberServiceImpl;
+import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -13,9 +14,16 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.util.NestedServletException;
 
+import java.nio.file.AccessDeniedException;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -31,7 +39,7 @@ public class MemberControllerUTest {
     private MemberServiceImpl memberService;
 
     @Test
-    public void testGetEmployeeEndpoint() throws Exception {
+    public void testGetEmployeeEndpointIfRegistered() throws Exception {
         //setup
         String employeeId = "1";
         String cardId = "6bb6b4c2c28b11e9";
@@ -58,6 +66,23 @@ public class MemberControllerUTest {
     }
 
     @Test
+    public void testGetEmployeeEndpointIfNotRegistered() throws Exception {
+        //setup
+        String cardId = "12345678abcdefgh";
+        String expectedError = "This card is not registered!";
+
+        Mockito.when(memberService.getEmployeeByCardId(Mockito.any(String.class))).thenThrow(EmployeeNotFoundException.class);
+
+        //act
+        mvc.perform(get("/employee?cardId=" + cardId)
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isNotFound())
+        .andExpect(mvcResult -> {
+            assertEquals(expectedError, mvcResult.getResponse().getErrorMessage());
+        });
+        }
+
+    @Test
     public void testRegisterNewEmployeeEndpoint() throws Exception {
         //setup
         String employeeId = "1";
@@ -77,7 +102,7 @@ public class MemberControllerUTest {
         Mockito.when(memberService.registerNewEmployee(registerNewEmployeeRequest)).thenReturn(employee);
 
         //act
-        mvc.perform(post("/newEmployee").content(registerNewEmployeeRequestJson).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+        mvc.perform(post("/register").content(registerNewEmployeeRequestJson).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andDo(mvcResult -> {
                     System.out.println(mvcResult.getResponse().toString());
