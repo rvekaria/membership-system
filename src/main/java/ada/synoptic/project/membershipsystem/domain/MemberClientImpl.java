@@ -28,7 +28,6 @@ public class MemberClientImpl implements MemberClient {
                 registerNewEmployeeRequest.getMobileNo(),
                 registerNewEmployeeRequest.getPin()
         );
-        repository.save(newEmployee);
-        return newEmployee;
+        return repository.save(newEmployee);
     }
 }
