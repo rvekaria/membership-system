@@ -1,5 +1,6 @@
 package ada.synoptic.project.membershipsystem.domain;
 
+import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +14,11 @@ public class MemberClientImpl implements MemberClient {
     }
 
     @Override
-    public Employee getEmployeeByCardId(String cardId) {
-        return repository.findByCardId(cardId);
+    public Employee getEmployeeByCardId(String cardId) throws EmployeeNotFoundException {
+        Employee employee = repository.findByCardId(cardId);
+        if (employee != null){
+            return employee;
+        } else throw new EmployeeNotFoundException();
     }
 
     @Override

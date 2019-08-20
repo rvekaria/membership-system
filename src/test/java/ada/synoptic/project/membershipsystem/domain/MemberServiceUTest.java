@@ -1,5 +1,6 @@
 package ada.synoptic.project.membershipsystem.domain;
 
+import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class MemberServiceUTest {
 
     @Test
-    public void testGetEmployee() {
+    public void testGetEmployee() throws EmployeeNotFoundException {
         //setup
         MemberClient memberClient = Mockito.mock(MemberClientImpl.class);
         MemberService memberService = new MemberServiceImpl(memberClient);
