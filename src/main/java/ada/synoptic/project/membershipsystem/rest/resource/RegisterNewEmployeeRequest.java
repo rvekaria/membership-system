@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class RegisterNewEmployeeRequest {
 
-    private String cardNumber;
+    private String cardId;
     private String employeeId;
     private String firstName;
     private String lastName;
@@ -16,14 +16,14 @@ public class RegisterNewEmployeeRequest {
     private String pin;
 
     @JsonCreator
-    public RegisterNewEmployeeRequest(@JsonProperty("cardNumber") String cardNumber,
+    public RegisterNewEmployeeRequest(@JsonProperty("cardId") String cardId,
                                       @JsonProperty("employeeId") String employeeId,
                                       @JsonProperty("firstName") String firstName,
                                       @JsonProperty("lastName") String lastName,
                                       @JsonProperty("email") String email,
                                       @JsonProperty("mobileNo") String mobileNo,
                                       @JsonProperty("pin") String pin) {
-        this.cardNumber = cardNumber;
+        this.cardId = cardId;
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -64,18 +64,18 @@ public class RegisterNewEmployeeRequest {
         return pin;
     }
 
-    public String getCardNumber() {
-        return cardNumber;
+    public String getCardId() {
+        return cardId;
     }
 
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
+    public void setCardId(String cardId) {
+        this.cardId = cardId;
     }
 
     @Override
     public String toString() {
         return "RegisterNewEmployeeRequest{" +
-                "cardNumber='" + cardNumber + '\'' +
+                "cardId='" + cardId + '\'' +
                 ", employeeId='" + employeeId + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -90,7 +90,7 @@ public class RegisterNewEmployeeRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RegisterNewEmployeeRequest that = (RegisterNewEmployeeRequest) o;
-        return Objects.equals(cardNumber, that.cardNumber) &&
+        return Objects.equals(cardId, that.cardId) &&
                 Objects.equals(employeeId, that.employeeId) &&
                 Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName) &&
@@ -102,7 +102,7 @@ public class RegisterNewEmployeeRequest {
     @Override
     public int hashCode() {
 
-        return Objects.hash(cardNumber, employeeId, firstName, lastName, email, mobileNo, pin);
+        return Objects.hash(cardId, employeeId, firstName, lastName, email, mobileNo, pin);
     }
 
     public void setEmployeeId(String employeeId) {

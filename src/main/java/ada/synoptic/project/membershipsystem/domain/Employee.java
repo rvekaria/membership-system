@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Employee {
 
     @Id
-    private String cardNumber;
+    private String cardId;
     private String employeeId;
     private String firstName;
     private String lastName;
@@ -16,8 +16,8 @@ public class Employee {
     private String pin;
     private double balance;
 
-    private Employee(String cardNumber, String employeeId, String firstName, String lastName, String email, String mobileNo, String pin, double balance) {
-        this.cardNumber = cardNumber;
+    private Employee(String cardId, String employeeId, String firstName, String lastName, String email, String mobileNo, String pin, double balance) {
+        this.cardId = cardId;
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -85,7 +85,7 @@ public class Employee {
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
         return Double.compare(employee.balance, balance) == 0 &&
-                Objects.equals(cardNumber, employee.cardNumber) &&
+                Objects.equals(cardId, employee.cardId) &&
                 Objects.equals(employeeId, employee.employeeId) &&
                 Objects.equals(firstName, employee.firstName) &&
                 Objects.equals(lastName, employee.lastName) &&
@@ -97,13 +97,13 @@ public class Employee {
     @Override
     public int hashCode() {
 
-        return Objects.hash(cardNumber, employeeId, firstName, lastName, email, mobileNo, pin, balance);
+        return Objects.hash(cardId, employeeId, firstName, lastName, email, mobileNo, pin, balance);
     }
 
     @Override
     public String toString() {
         return "Employee{" +
-                "cardNumber='" + cardNumber + '\'' +
+                "cardId='" + cardId + '\'' +
                 ", employeeId='" + employeeId + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -114,7 +114,7 @@ public class Employee {
                 '}';
     }
 
-    public String getCardNumber() {
-        return cardNumber;
+    public String getCardId() {
+        return cardId;
     }
 }
