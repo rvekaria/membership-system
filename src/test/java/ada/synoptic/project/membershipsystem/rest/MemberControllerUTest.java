@@ -3,6 +3,7 @@ package ada.synoptic.project.membershipsystem.rest;
 import ada.synoptic.project.membershipsystem.domain.Employee;
 import ada.synoptic.project.membershipsystem.domain.MemberServiceImpl;
 import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
+import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -14,16 +15,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.util.NestedServletException;
 
-import java.nio.file.AccessDeniedException;
-
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -48,21 +42,24 @@ public class MemberControllerUTest {
         String email = "Email";
         String mobileNo = "075 43875489127";
         String pin = "8628";
+        String responseMessage = "Welcome, " + firstName + " " + lastName;
         Employee employee = Employee.createNewMember(cardId, employeeId, firstName, lastName, email, mobileNo, pin);
+        EmployeeResource employeeResource = new EmployeeResource(employee, responseMessage);
 
-        Mockito.when(memberService.getEmployeeByCardId(cardId)).thenReturn(employee);
+        Mockito.when(memberService.getEmployeeByCardId(cardId)).thenReturn(employeeResource);
 
         //act
         mvc.perform(get("/employee?cardId=" + cardId)
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("cardId", equalTo(cardId)))
-                .andExpect(jsonPath("employeeId", equalTo(employeeId)))
-                .andExpect(jsonPath("firstName", equalTo(firstName)))
-                .andExpect(jsonPath("lastName", equalTo(lastName)))
-                .andExpect(jsonPath("email", equalTo(email)))
-                .andExpect(jsonPath("mobileNo", equalTo(mobileNo)))
-                .andExpect(jsonPath("pin", equalTo(pin)));
+                .andExpect(jsonPath("employee.cardId", equalTo(cardId)))
+                .andExpect(jsonPath("employee.employeeId", equalTo(employeeId)))
+                .andExpect(jsonPath("employee.firstName", equalTo(firstName)))
+                .andExpect(jsonPath("employee.lastName", equalTo(lastName)))
+                .andExpect(jsonPath("employee.email", equalTo(email)))
+                .andExpect(jsonPath("employee.mobileNo", equalTo(mobileNo)))
+                .andExpect(jsonPath("employee.pin", equalTo(pin)))
+                .andExpect(jsonPath("responseMessage", equalTo(responseMessage)));
     }
 
     @Test

@@ -1,6 +1,7 @@
 package ada.synoptic.project.membershipsystem.domain;
 
 import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
+import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,10 +31,10 @@ public class MemberClientUTest {
         Mockito.when(repository.findByCardId(cardId)).thenReturn(expectedEmployee);
 
         //act
-        Employee actualEmployee = memberClient.getEmployeeByCardId(cardId);
+        EmployeeResource actualEmployeeResource = memberClient.getEmployeeByCardId(cardId);
 
         //assert
-        assertEquals(expectedEmployee, actualEmployee);
+        assertEquals(expectedEmployee, actualEmployeeResource.getEmployee());
     }
 
     @Test
