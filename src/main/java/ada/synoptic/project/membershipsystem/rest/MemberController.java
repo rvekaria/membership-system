@@ -3,6 +3,7 @@ package ada.synoptic.project.membershipsystem.rest;
 import ada.synoptic.project.membershipsystem.domain.Employee;
 import ada.synoptic.project.membershipsystem.domain.MemberService;
 import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
+import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class MemberController {
 
     @CrossOrigin()
     @GetMapping("/employee")
-    public Employee getEmployeeByCardId(@RequestParam("cardId") String cardId) {
+    public EmployeeResource getEmployeeByCardId(@RequestParam("cardId") String cardId) {
         try {
             return memberService.getEmployeeByCardId(cardId);
         } catch (EmployeeNotFoundException e) {
