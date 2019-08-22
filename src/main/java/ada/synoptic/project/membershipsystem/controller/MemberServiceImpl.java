@@ -1,10 +1,11 @@
-package ada.synoptic.project.membershipsystem.domain;
+package ada.synoptic.project.membershipsystem.controller;
 
-import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
-import ada.synoptic.project.membershipsystem.rest.exception.InsufficientFundsException;
-import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
-import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
-import ada.synoptic.project.membershipsystem.rest.resource.ChangeBalanceRequest;
+import ada.synoptic.project.membershipsystem.controller.exception.EmployeeNotFoundException;
+import ada.synoptic.project.membershipsystem.controller.exception.InsufficientFundsException;
+import ada.synoptic.project.membershipsystem.controller.resource.ChangeBalanceRequest;
+import ada.synoptic.project.membershipsystem.controller.resource.EmployeeResource;
+import ada.synoptic.project.membershipsystem.controller.resource.RegisterNewEmployeeRequest;
+import ada.synoptic.project.membershipsystem.model.Employee;
 import org.springframework.stereotype.Service;
 
 @Service

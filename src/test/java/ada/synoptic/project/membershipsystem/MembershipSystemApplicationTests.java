@@ -1,6 +1,6 @@
 package ada.synoptic.project.membershipsystem;
 
-import ada.synoptic.project.membershipsystem.rest.MemberController;
+import ada.synoptic.project.membershipsystem.controller.MemberController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

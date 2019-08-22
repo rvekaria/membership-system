@@ -1,5 +1,6 @@
-package ada.synoptic.project.membershipsystem.domain;
+package ada.synoptic.project.membershipsystem.db;
 
+import ada.synoptic.project.membershipsystem.model.Employee;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

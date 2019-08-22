@@ -1,7 +1,5 @@
-package ada.synoptic.project.membershipsystem.domain;
+package ada.synoptic.project.membershipsystem.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 
 import java.util.Objects;

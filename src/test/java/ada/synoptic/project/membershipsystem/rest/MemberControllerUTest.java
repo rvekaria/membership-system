@@ -1,12 +1,13 @@
 package ada.synoptic.project.membershipsystem.rest;
 
-import ada.synoptic.project.membershipsystem.domain.Employee;
-import ada.synoptic.project.membershipsystem.domain.MemberServiceImpl;
-import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
-import ada.synoptic.project.membershipsystem.rest.exception.InsufficientFundsException;
-import ada.synoptic.project.membershipsystem.rest.resource.ChangeBalanceRequest;
-import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
-import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
+import ada.synoptic.project.membershipsystem.controller.MemberController;
+import ada.synoptic.project.membershipsystem.model.Employee;
+import ada.synoptic.project.membershipsystem.controller.MemberServiceImpl;
+import ada.synoptic.project.membershipsystem.controller.exception.EmployeeNotFoundException;
+import ada.synoptic.project.membershipsystem.controller.exception.InsufficientFundsException;
+import ada.synoptic.project.membershipsystem.controller.resource.ChangeBalanceRequest;
+import ada.synoptic.project.membershipsystem.controller.resource.EmployeeResource;
+import ada.synoptic.project.membershipsystem.controller.resource.RegisterNewEmployeeRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +22,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
