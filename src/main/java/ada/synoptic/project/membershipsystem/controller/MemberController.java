@@ -20,6 +20,12 @@ public class MemberController {
     }
 
     @CrossOrigin()
+    @PostMapping("/register")
+    public EmployeeResource registerNewEmployee(@RequestBody RegisterNewEmployeeRequest registerNewEmployeeRequest) {
+        return memberService.registerNewEmployee(registerNewEmployeeRequest);
+    }
+
+    @CrossOrigin()
     @GetMapping("/employee")
     public EmployeeResource getEmployeeByCardId(@RequestParam("cardId") String cardId) {
         try {
@@ -27,12 +33,6 @@ public class MemberController {
         } catch (EmployeeNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This card is not registered. Please register first to use the service", e);
         }
-    }
-
-    @CrossOrigin()
-    @PostMapping("/register")
-    public Employee registerNewEmployee(@RequestBody RegisterNewEmployeeRequest registerNewEmployeeRequest) {
-        return memberService.registerNewEmployee(registerNewEmployeeRequest);
     }
 
     @CrossOrigin()

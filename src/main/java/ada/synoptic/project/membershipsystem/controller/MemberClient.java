@@ -10,7 +10,7 @@ import ada.synoptic.project.membershipsystem.model.Employee;
 public interface MemberClient {
     EmployeeResource getEmployeeByCardId(String cardId) throws EmployeeNotFoundException;
 
-    Employee registerNewEmployee(RegisterNewEmployeeRequest RegisterNewEmployeeRequest);
+    EmployeeResource registerNewEmployee(RegisterNewEmployeeRequest RegisterNewEmployeeRequest);
 
     EmployeeResource topUp(ChangeBalanceRequest changeBalanceRequest);
 

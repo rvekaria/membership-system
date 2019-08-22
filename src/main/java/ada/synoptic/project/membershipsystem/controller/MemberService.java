@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public interface MemberService {
     EmployeeResource getEmployeeByCardId(String cardId) throws EmployeeNotFoundException;
 
-    Employee registerNewEmployee(RegisterNewEmployeeRequest RegisterNewEmployeeRequest);
+    EmployeeResource registerNewEmployee(RegisterNewEmployeeRequest RegisterNewEmployeeRequest);
 
     EmployeeResource topUp(ChangeBalanceRequest changeBalanceRequest);
 
