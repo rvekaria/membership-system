@@ -1,9 +1,10 @@
 package ada.synoptic.project.membershipsystem.domain;
 
 import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
+import ada.synoptic.project.membershipsystem.rest.exception.InsufficientFundsException;
 import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
-import ada.synoptic.project.membershipsystem.rest.resource.TopUpRequest;
+import ada.synoptic.project.membershipsystem.rest.resource.ChangeBalanceRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -55,8 +56,9 @@ public class MemberServiceUTest {
         String email = "Email";
         String mobileNo = "075 43875489127";
         String pin = "8628";
+        double balance = 0;
         Employee expectedEmployee = Employee.createNewMember(cardId, employeeId, firstName, lastName, email, mobileNo, pin);
-        RegisterNewEmployeeRequest registerNewEmployeeRequest = new RegisterNewEmployeeRequest(cardId, employeeId, firstName, lastName, email, mobileNo, pin);
+        RegisterNewEmployeeRequest registerNewEmployeeRequest = new RegisterNewEmployeeRequest(cardId, employeeId, firstName, lastName, email, mobileNo, pin, balance);
 
         Mockito.when(memberClient.registerNewEmployee(registerNewEmployeeRequest)).thenReturn(expectedEmployee);
 
@@ -85,12 +87,41 @@ public class MemberServiceUTest {
         double expectedBalance = currentBalance + topUpAmount;
         Employee expectedEmployee = Employee.createNewMemberWithInitialBalance(cardId, employeeId, firstName, lastName, email, mobileNo, pin, expectedBalance);
         EmployeeResource employeeResource = new EmployeeResource(expectedEmployee);
-        TopUpRequest topUpRequest = new TopUpRequest(cardId, topUpAmount);
+        ChangeBalanceRequest changeBalanceRequest = new ChangeBalanceRequest(cardId, topUpAmount);
 
-        Mockito.when(memberClient.topUp(topUpRequest)).thenReturn(employeeResource);
+        Mockito.when(memberClient.topUp(changeBalanceRequest)).thenReturn(employeeResource);
 
         //act
-        EmployeeResource actualEmployeeResource = memberService.topUp(topUpRequest);
+        EmployeeResource actualEmployeeResource = memberService.topUp(changeBalanceRequest);
+
+        //assert
+        assertEquals(employeeResource, actualEmployeeResource);
+
+    }
+
+    @Test
+    public void testBuy() throws InsufficientFundsException {
+        //setup
+        MemberService memberService = new MemberServiceImpl(memberClient);
+
+        String employeeId = "1";
+        String cardId = "6bb6b4c2c28b11e9";
+        String firstName = "First";
+        String lastName = "Last";
+        String email = "Email";
+        String mobileNo = "075 43875489127";
+        String pin = "8628";
+        double currentBalance = 5.70;
+        double purchaseAmount = 3.50;
+        double expectedBalance = currentBalance - purchaseAmount;
+        Employee expectedEmployee = Employee.createNewMemberWithInitialBalance(cardId, employeeId, firstName, lastName, email, mobileNo, pin, expectedBalance);
+        EmployeeResource employeeResource = new EmployeeResource(expectedEmployee);
+        ChangeBalanceRequest purchaseRequest = new ChangeBalanceRequest(cardId, purchaseAmount);
+
+        Mockito.when(memberClient.buy(purchaseRequest)).thenReturn(employeeResource);
+
+        //act
+        EmployeeResource actualEmployeeResource = memberService.buy(purchaseRequest);
 
         //assert
         assertEquals(employeeResource, actualEmployeeResource);

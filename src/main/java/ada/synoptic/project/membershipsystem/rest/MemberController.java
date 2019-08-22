@@ -3,9 +3,10 @@ package ada.synoptic.project.membershipsystem.rest;
 import ada.synoptic.project.membershipsystem.domain.Employee;
 import ada.synoptic.project.membershipsystem.domain.MemberService;
 import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
+import ada.synoptic.project.membershipsystem.rest.exception.InsufficientFundsException;
+import ada.synoptic.project.membershipsystem.rest.resource.ChangeBalanceRequest;
 import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
-import ada.synoptic.project.membershipsystem.rest.resource.TopUpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -37,8 +38,18 @@ public class MemberController {
 
     @CrossOrigin()
     @PutMapping("/topUpBalance")
-    public EmployeeResource topUpBalance(@RequestBody TopUpRequest topUpRequest) {
-        return memberService.topUp(topUpRequest);
+    public EmployeeResource topUpBalance(@RequestBody ChangeBalanceRequest changeBalanceRequest) {
+        return memberService.topUp(changeBalanceRequest);
+    }
+
+    @CrossOrigin()
+    @PutMapping("/buy")
+    public EmployeeResource buyFood(@RequestBody ChangeBalanceRequest changeBalanceRequest) {
+        try {
+            return memberService.buy(changeBalanceRequest);
+        } catch (InsufficientFundsException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You have insufficient funds to carry out this purchase. Please top up and try again", e);
+        }
     }
 
 }
