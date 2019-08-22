@@ -14,6 +14,7 @@ public class RegisterNewEmployeeRequest {
     private String email;
     private String mobileNo;
     private String pin;
+    private double balance;
 
     @JsonCreator
     public RegisterNewEmployeeRequest(@JsonProperty("cardId") String cardId,
@@ -22,7 +23,8 @@ public class RegisterNewEmployeeRequest {
                                       @JsonProperty("lastName") String lastName,
                                       @JsonProperty("email") String email,
                                       @JsonProperty("mobileNo") String mobileNo,
-                                      @JsonProperty("pin") String pin) {
+                                      @JsonProperty("pin") String pin,
+                                      @JsonProperty("balance") double balance) {
         this.cardId = cardId;
         this.employeeId = employeeId;
         this.firstName = firstName;
@@ -30,6 +32,15 @@ public class RegisterNewEmployeeRequest {
         this.email = email;
         this.mobileNo = mobileNo;
         this.pin = pin;
+        this.balance = balance;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public String getEmployeeId() {
@@ -82,6 +93,7 @@ public class RegisterNewEmployeeRequest {
                 ", email='" + email + '\'' +
                 ", mobileNo='" + mobileNo + '\'' +
                 ", pin='" + pin + '\'' +
+                ", balance=" + balance +
                 '}';
     }
 
@@ -90,7 +102,8 @@ public class RegisterNewEmployeeRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RegisterNewEmployeeRequest that = (RegisterNewEmployeeRequest) o;
-        return Objects.equals(cardId, that.cardId) &&
+        return Double.compare(that.balance, balance) == 0 &&
+                Objects.equals(cardId, that.cardId) &&
                 Objects.equals(employeeId, that.employeeId) &&
                 Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName) &&
@@ -102,7 +115,7 @@ public class RegisterNewEmployeeRequest {
     @Override
     public int hashCode() {
 
-        return Objects.hash(cardId, employeeId, firstName, lastName, email, mobileNo, pin);
+        return Objects.hash(cardId, employeeId, firstName, lastName, email, mobileNo, pin, balance);
     }
 
     public void setEmployeeId(String employeeId) {

@@ -53,8 +53,9 @@ public class MemberClientUTest {
         String email = "Email";
         String mobileNo = "075 43875489127";
         String pin = "8628";
+        double balance = 0;
         Employee expectedEmployee = Employee.createNewMember(cardId, employeeId, firstName, lastName, email, mobileNo, pin);
-        RegisterNewEmployeeRequest registerNewEmployeeRequest = new RegisterNewEmployeeRequest(cardId, employeeId, firstName, lastName, email, mobileNo, pin);
+        RegisterNewEmployeeRequest registerNewEmployeeRequest = new RegisterNewEmployeeRequest(cardId, employeeId, firstName, lastName, email, mobileNo, pin, balance);
 
         Mockito.when(repository.save(expectedEmployee)).thenReturn(expectedEmployee);
 

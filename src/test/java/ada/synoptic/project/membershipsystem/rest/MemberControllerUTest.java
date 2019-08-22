@@ -91,8 +91,9 @@ public class MemberControllerUTest {
         String email = "NewEmail";
         String mobileNo = "107824231";
         String pin = "3589";
+        double balance = 0;
 
-        RegisterNewEmployeeRequest registerNewEmployeeRequest = new RegisterNewEmployeeRequest(cardId, employeeId, firstName, lastName, email, mobileNo, pin);
+        RegisterNewEmployeeRequest registerNewEmployeeRequest = new RegisterNewEmployeeRequest(cardId, employeeId, firstName, lastName, email, mobileNo, pin, balance);
         ObjectMapper objectMapper = new ObjectMapper();
         String registerNewEmployeeRequestJson = objectMapper.writeValueAsString(registerNewEmployeeRequest);
 
