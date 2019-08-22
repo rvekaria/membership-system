@@ -14,6 +14,10 @@ public class EmployeeResource {
         this.responseMessage = responseMessage;
     }
 
+    public EmployeeResource(Employee employee) {
+        this(employee,"");
+    }
+
     public Employee getEmployee() {
         return employee;
     }

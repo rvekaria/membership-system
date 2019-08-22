@@ -5,6 +5,7 @@ import ada.synoptic.project.membershipsystem.domain.MemberServiceImpl;
 import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
 import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
+import ada.synoptic.project.membershipsystem.rest.resource.TopUpRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +21,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -74,10 +76,10 @@ public class MemberControllerUTest {
         mvc.perform(get("/employee?cardId=" + cardId)
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isNotFound())
-        .andExpect(mvcResult -> {
-            assertEquals(expectedError, mvcResult.getResponse().getErrorMessage());
-        });
-        }
+                .andExpect(mvcResult -> {
+                    assertEquals(expectedError, mvcResult.getResponse().getErrorMessage());
+                });
+    }
 
     @Test
     public void testRegisterNewEmployeeEndpoint() throws Exception {
@@ -113,5 +115,40 @@ public class MemberControllerUTest {
                 .andExpect(jsonPath("pin", equalTo(pin))
                 )
         ;
+    }
+
+    @Test
+    public void testTopUp() throws Exception {
+        //setup
+        String employeeId = "1";
+        String cardId = "6bb6b4c2c28b11e9";
+        String firstName = "New";
+        String lastName = "Guy";
+        String email = "NewEmail";
+        String mobileNo = "107824231";
+        String pin = "3589";
+        double initialBalance = 5.23;
+        double topUpAmount = 3.70;
+        double finalBalance = initialBalance + topUpAmount;
+
+        TopUpRequest topUpRequest = new TopUpRequest(cardId, topUpAmount);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String topUpRequestJson = objectMapper.writeValueAsString(topUpRequest);
+
+        Employee employee = Employee.createNewMemberWithInitialBalance(cardId, employeeId, firstName, lastName, email, mobileNo, pin, finalBalance);
+        EmployeeResource employeeResource = new EmployeeResource(employee);
+        Mockito.when(memberService.topUp(topUpRequest)).thenReturn(employeeResource);
+
+        //act
+        mvc.perform(put("/topUpBalance").content(topUpRequestJson).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("employee.employeeId").value(employeeId))
+                .andExpect(jsonPath("employee.cardId", equalTo(cardId)))
+                .andExpect(jsonPath("employee.firstName", equalTo(firstName)))
+                .andExpect(jsonPath("employee.lastName", equalTo(lastName)))
+                .andExpect(jsonPath("employee.email", equalTo(email)))
+                .andExpect(jsonPath("employee.mobileNo", equalTo(mobileNo)))
+                .andExpect(jsonPath("employee.pin", equalTo(pin)))
+                .andExpect(jsonPath("employee.balance", equalTo(finalBalance)));
     }
 }

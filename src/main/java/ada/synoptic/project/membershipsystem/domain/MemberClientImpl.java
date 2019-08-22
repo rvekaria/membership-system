@@ -3,6 +3,7 @@ package ada.synoptic.project.membershipsystem.domain;
 import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
 import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
+import ada.synoptic.project.membershipsystem.rest.resource.TopUpRequest;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,9 +19,8 @@ public class MemberClientImpl implements MemberClient {
     public EmployeeResource getEmployeeByCardId(String cardId) throws EmployeeNotFoundException {
         Employee employee = repository.findByCardId(cardId);
         if (employee != null) {
-            EmployeeResource employeeResource = new EmployeeResource(employee,
+            return new EmployeeResource(employee,
                     "Welcome, " + employee.getFirstName() + " " + employee.getLastName());
-            return employeeResource;
         } else throw new EmployeeNotFoundException();
     }
 
@@ -36,5 +36,17 @@ public class MemberClientImpl implements MemberClient {
                 registerNewEmployeeRequest.getPin()
         );
         return repository.save(newEmployee);
+    }
+
+    @Override
+    public EmployeeResource topUp(TopUpRequest topUpRequest) {
+        Employee employee = repository.findByCardId(topUpRequest.getCardId());
+        double currentBalance = employee.getBalance();
+        double finalBalance = currentBalance + topUpRequest.getTopUpAmount();
+        employee.setBalance(finalBalance);
+        employee = repository.save(employee);
+
+        return new EmployeeResource(employee);
+
     }
 }
