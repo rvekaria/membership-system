@@ -10,3 +10,6 @@ Build the project by running `mvn clean install`
 Ensure the mongo database is running by running `mongodb`
 
 Start the membership system by running `java -jar target/membership-system-0.0.1-SNAPSHOT.jar`
+
+## Swagger API Documentation
+Once the application is running, you can view the API documentation at http://localhost:8080/swagger-ui.html
