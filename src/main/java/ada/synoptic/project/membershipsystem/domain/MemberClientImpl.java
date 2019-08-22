@@ -1,9 +1,9 @@
 package ada.synoptic.project.membershipsystem.domain;
 
 import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
+import ada.synoptic.project.membershipsystem.rest.resource.ChangeBalanceRequest;
 import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
-import ada.synoptic.project.membershipsystem.rest.resource.TopUpRequest;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -40,10 +40,10 @@ public class MemberClientImpl implements MemberClient {
     }
 
     @Override
-    public EmployeeResource topUp(TopUpRequest topUpRequest) {
-        Employee employee = repository.findByCardId(topUpRequest.getCardId());
+    public EmployeeResource topUp(ChangeBalanceRequest changeBalanceRequest) {
+        Employee employee = repository.findByCardId(changeBalanceRequest.getCardId());
         double currentBalance = employee.getBalance();
-        double finalBalance = currentBalance + topUpRequest.getTopUpAmount();
+        double finalBalance = currentBalance + changeBalanceRequest.getTopUpAmount();
         employee.setBalance(finalBalance);
         employee = repository.save(employee);
 

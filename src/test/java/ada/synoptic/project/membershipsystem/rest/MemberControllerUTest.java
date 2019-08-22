@@ -3,9 +3,9 @@ package ada.synoptic.project.membershipsystem.rest;
 import ada.synoptic.project.membershipsystem.domain.Employee;
 import ada.synoptic.project.membershipsystem.domain.MemberServiceImpl;
 import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
+import ada.synoptic.project.membershipsystem.rest.resource.ChangeBalanceRequest;
 import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
-import ada.synoptic.project.membershipsystem.rest.resource.TopUpRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -132,13 +132,13 @@ public class MemberControllerUTest {
         double topUpAmount = 3.70;
         double finalBalance = initialBalance + topUpAmount;
 
-        TopUpRequest topUpRequest = new TopUpRequest(cardId, topUpAmount);
+        ChangeBalanceRequest changeBalanceRequest = new ChangeBalanceRequest(cardId, topUpAmount);
         ObjectMapper objectMapper = new ObjectMapper();
-        String topUpRequestJson = objectMapper.writeValueAsString(topUpRequest);
+        String topUpRequestJson = objectMapper.writeValueAsString(changeBalanceRequest);
 
         Employee employee = Employee.createNewMemberWithInitialBalance(cardId, employeeId, firstName, lastName, email, mobileNo, pin, finalBalance);
         EmployeeResource employeeResource = new EmployeeResource(employee);
-        Mockito.when(memberService.topUp(topUpRequest)).thenReturn(employeeResource);
+        Mockito.when(memberService.topUp(changeBalanceRequest)).thenReturn(employeeResource);
 
         //act
         mvc.perform(put("/topUpBalance").content(topUpRequestJson).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))

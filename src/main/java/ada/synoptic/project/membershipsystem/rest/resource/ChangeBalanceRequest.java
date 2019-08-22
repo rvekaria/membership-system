@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
-public class TopUpRequest {
+public class ChangeBalanceRequest {
 
     private final String cardId;
     private final double topUpAmount;
 
     @JsonCreator
-    public TopUpRequest(@JsonProperty("cardId") String cardId, @JsonProperty("topUpAmount") double topUpAmount) {
+    public ChangeBalanceRequest(@JsonProperty("cardId") String cardId, @JsonProperty("topUpAmount") double topUpAmount) {
         this.cardId = cardId;
         this.topUpAmount = topUpAmount;
     }
@@ -28,7 +28,7 @@ public class TopUpRequest {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TopUpRequest that = (TopUpRequest) o;
+        ChangeBalanceRequest that = (ChangeBalanceRequest) o;
         return Double.compare(that.topUpAmount, topUpAmount) == 0 &&
                 Objects.equals(cardId, that.cardId);
     }
@@ -41,7 +41,7 @@ public class TopUpRequest {
 
     @Override
     public String toString() {
-        return "TopUpRequest{" +
+        return "ChangeBalanceRequest{" +
                 "cardId='" + cardId + '\'' +
                 ", topUpAmount=" + topUpAmount +
                 '}';

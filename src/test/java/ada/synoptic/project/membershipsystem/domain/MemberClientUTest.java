@@ -1,9 +1,9 @@
 package ada.synoptic.project.membershipsystem.domain;
 
 import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
+import ada.synoptic.project.membershipsystem.rest.resource.ChangeBalanceRequest;
 import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
-import ada.synoptic.project.membershipsystem.rest.resource.TopUpRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -84,13 +84,13 @@ public class MemberClientUTest {
         Employee initialEmployee = Employee.createNewMemberWithInitialBalance(cardId, employeeId, firstName, lastName, email, mobileNo, pin, currentBalance);
         Employee expectedEmployee = Employee.createNewMemberWithInitialBalance(cardId, employeeId, firstName, lastName, email, mobileNo, pin, expectedBalance);
         EmployeeResource expectedEmployeeResource = new EmployeeResource(expectedEmployee);
-        TopUpRequest topUpRequest = new TopUpRequest(cardId, topUpAmount);
+        ChangeBalanceRequest changeBalanceRequest = new ChangeBalanceRequest(cardId, topUpAmount);
 
-        Mockito.when(repository.findByCardId(topUpRequest.getCardId())).thenReturn(initialEmployee);
+        Mockito.when(repository.findByCardId(changeBalanceRequest.getCardId())).thenReturn(initialEmployee);
         Mockito.when(repository.save(expectedEmployee)).thenReturn(expectedEmployee);
 
         //act
-        EmployeeResource actualEmployeeResource = memberClient.topUp(topUpRequest);
+        EmployeeResource actualEmployeeResource = memberClient.topUp(changeBalanceRequest);
 
         //assert
         assertEquals(expectedEmployeeResource, actualEmployeeResource);

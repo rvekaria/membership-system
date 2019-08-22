@@ -3,7 +3,7 @@ package ada.synoptic.project.membershipsystem.domain;
 import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
 import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
-import ada.synoptic.project.membershipsystem.rest.resource.TopUpRequest;
+import ada.synoptic.project.membershipsystem.rest.resource.ChangeBalanceRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,7 +30,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public EmployeeResource topUp(TopUpRequest topUpRequest) {
-        return memberClient.topUp(topUpRequest);
+    public EmployeeResource topUp(ChangeBalanceRequest changeBalanceRequest) {
+        return memberClient.topUp(changeBalanceRequest);
     }
 }
