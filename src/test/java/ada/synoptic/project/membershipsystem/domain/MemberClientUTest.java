@@ -1,6 +1,7 @@
 package ada.synoptic.project.membershipsystem.domain;
 
 import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
+import ada.synoptic.project.membershipsystem.rest.exception.InsufficientFundsException;
 import ada.synoptic.project.membershipsystem.rest.resource.ChangeBalanceRequest;
 import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
@@ -96,4 +97,67 @@ public class MemberClientUTest {
         assertEquals(expectedEmployeeResource, actualEmployeeResource);
     }
 
+    @Test
+    public void testBuy() throws InsufficientFundsException {
+        //setup
+        MemberClient memberClient = new MemberClientImpl(repository);
+
+        String employeeId = "1";
+        String cardId = "6bb6b4c2c28b11e9";
+        String firstName = "First";
+        String lastName = "Last";
+        String email = "Email";
+        String mobileNo = "075 43875489127";
+        String pin = "8628";
+        double currentBalance = 5.70;
+        double purchaseAmount = 3.50;
+        double expectedBalance = currentBalance - purchaseAmount;
+
+        Employee initialEmployee = Employee.createNewMemberWithInitialBalance(cardId, employeeId, firstName, lastName, email, mobileNo, pin, currentBalance);
+        Employee expectedEmployee = Employee.createNewMemberWithInitialBalance(cardId, employeeId, firstName, lastName, email, mobileNo, pin, expectedBalance);
+
+        EmployeeResource expectedEmployeeResource = new EmployeeResource(expectedEmployee);
+        ChangeBalanceRequest purchaseRequest = new ChangeBalanceRequest(cardId, purchaseAmount);
+
+        Mockito.when(repository.findByCardId(purchaseRequest.getCardId())).thenReturn(initialEmployee);
+        Mockito.when(repository.save(expectedEmployee)).thenReturn(expectedEmployee);
+
+        //act
+        EmployeeResource actualEmployeeResource = memberClient.buy(purchaseRequest);
+
+        //assert
+        assertEquals(expectedEmployeeResource, actualEmployeeResource);
+    }
+
+    @Test(expected = InsufficientFundsException.class)
+    public void testBuyThrowsException() throws InsufficientFundsException {
+        //setup
+        MemberClient memberClient = new MemberClientImpl(repository);
+
+        String employeeId = "1";
+        String cardId = "6bb6b4c2c28b11e9";
+        String firstName = "First";
+        String lastName = "Last";
+        String email = "Email";
+        String mobileNo = "075 43875489127";
+        String pin = "8628";
+        double currentBalance = 0;
+        double purchaseAmount = 500;
+        double expectedBalance = currentBalance - purchaseAmount;
+
+        Employee initialEmployee = Employee.createNewMemberWithInitialBalance(cardId, employeeId, firstName, lastName, email, mobileNo, pin, currentBalance);
+        Employee expectedEmployee = Employee.createNewMemberWithInitialBalance(cardId, employeeId, firstName, lastName, email, mobileNo, pin, expectedBalance);
+
+        EmployeeResource expectedEmployeeResource = new EmployeeResource(expectedEmployee);
+        ChangeBalanceRequest purchaseRequest = new ChangeBalanceRequest(cardId, purchaseAmount);
+
+        Mockito.when(repository.findByCardId(purchaseRequest.getCardId())).thenReturn(initialEmployee);
+        Mockito.when(repository.save(expectedEmployee)).thenReturn(expectedEmployee);
+
+        //act
+        EmployeeResource actualEmployeeResource = memberClient.buy(purchaseRequest);
+
+        //assert
+        assertEquals(expectedEmployeeResource, actualEmployeeResource);
+    }
 }

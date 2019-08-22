@@ -1,6 +1,7 @@
 package ada.synoptic.project.membershipsystem.domain;
 
 import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
+import ada.synoptic.project.membershipsystem.rest.exception.InsufficientFundsException;
 import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
 import ada.synoptic.project.membershipsystem.rest.resource.ChangeBalanceRequest;
@@ -11,4 +12,6 @@ public interface MemberClient {
     Employee registerNewEmployee(RegisterNewEmployeeRequest RegisterNewEmployeeRequest);
 
     EmployeeResource topUp(ChangeBalanceRequest changeBalanceRequest);
+
+    EmployeeResource buy(ChangeBalanceRequest changeBalanceRequest) throws InsufficientFundsException;
 }

@@ -1,6 +1,7 @@
 package ada.synoptic.project.membershipsystem.domain;
 
 import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
+import ada.synoptic.project.membershipsystem.rest.exception.InsufficientFundsException;
 import ada.synoptic.project.membershipsystem.rest.resource.ChangeBalanceRequest;
 import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
@@ -43,11 +44,24 @@ public class MemberClientImpl implements MemberClient {
     public EmployeeResource topUp(ChangeBalanceRequest changeBalanceRequest) {
         Employee employee = repository.findByCardId(changeBalanceRequest.getCardId());
         double currentBalance = employee.getBalance();
-        double finalBalance = currentBalance + changeBalanceRequest.getTopUpAmount();
+        double finalBalance = currentBalance + changeBalanceRequest.getChangeAmount();
         employee.setBalance(finalBalance);
         employee = repository.save(employee);
 
         return new EmployeeResource(employee);
+
+    }
+
+    @Override
+    public EmployeeResource buy(ChangeBalanceRequest changeBalanceRequest) throws InsufficientFundsException {
+        Employee employee = repository.findByCardId(changeBalanceRequest.getCardId());
+        double currentBalance = employee.getBalance();
+        double finalBalance = currentBalance - changeBalanceRequest.getChangeAmount();
+        if (finalBalance >= 0) {
+            employee.setBalance(finalBalance);
+            employee = repository.save(employee);
+            return new EmployeeResource(employee);
+        } else throw new InsufficientFundsException();
 
     }
 }

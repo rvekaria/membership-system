@@ -1,6 +1,7 @@
 package ada.synoptic.project.membershipsystem.domain;
 
 import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
+import ada.synoptic.project.membershipsystem.rest.exception.InsufficientFundsException;
 import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
 import ada.synoptic.project.membershipsystem.rest.resource.ChangeBalanceRequest;
@@ -32,5 +33,14 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public EmployeeResource topUp(ChangeBalanceRequest changeBalanceRequest) {
         return memberClient.topUp(changeBalanceRequest);
+    }
+
+    @Override
+    public EmployeeResource buy(ChangeBalanceRequest changeBalanceRequest) throws InsufficientFundsException {
+        try {
+            return memberClient.buy(changeBalanceRequest);
+        } catch (InsufficientFundsException e) {
+            throw e;
+        }
     }
 }

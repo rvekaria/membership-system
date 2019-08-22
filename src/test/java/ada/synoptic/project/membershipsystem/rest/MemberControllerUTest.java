@@ -3,6 +3,7 @@ package ada.synoptic.project.membershipsystem.rest;
 import ada.synoptic.project.membershipsystem.domain.Employee;
 import ada.synoptic.project.membershipsystem.domain.MemberServiceImpl;
 import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
+import ada.synoptic.project.membershipsystem.rest.exception.InsufficientFundsException;
 import ada.synoptic.project.membershipsystem.rest.resource.ChangeBalanceRequest;
 import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
 import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
@@ -19,6 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -68,16 +71,16 @@ public class MemberControllerUTest {
     public void testGetEmployeeEndpointIfNotRegistered() throws Exception {
         //setup
         String cardId = "12345678abcdefgh";
-        String expectedError = "This card is not registered. Please register first to use the service";
+        String employeeNotFoundError = "This card is not registered. Please register first to use the service";
 
-        Mockito.when(memberService.getEmployeeByCardId(Mockito.any(String.class))).thenThrow(EmployeeNotFoundException.class);
+        Mockito.when(memberService.getEmployeeByCardId(any(String.class))).thenThrow(EmployeeNotFoundException.class);
 
         //act
         mvc.perform(get("/employee?cardId=" + cardId)
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isNotFound())
                 .andExpect(mvcResult -> {
-                    assertEquals(expectedError, mvcResult.getResponse().getErrorMessage());
+                    assertEquals(employeeNotFoundError, mvcResult.getResponse().getErrorMessage());
                 });
     }
 
@@ -123,11 +126,11 @@ public class MemberControllerUTest {
         //setup
         String employeeId = "1";
         String cardId = "6bb6b4c2c28b11e9";
-        String firstName = "New";
-        String lastName = "Guy";
-        String email = "NewEmail";
-        String mobileNo = "107824231";
-        String pin = "3589";
+        String firstName = "First";
+        String lastName = "Last";
+        String email = "Email";
+        String mobileNo = "075 43875489127";
+        String pin = "8628";
         double initialBalance = 5.23;
         double topUpAmount = 3.70;
         double finalBalance = initialBalance + topUpAmount;
@@ -151,5 +154,64 @@ public class MemberControllerUTest {
                 .andExpect(jsonPath("employee.mobileNo", equalTo(mobileNo)))
                 .andExpect(jsonPath("employee.pin", equalTo(pin)))
                 .andExpect(jsonPath("employee.balance", equalTo(finalBalance)));
+    }
+
+    @Test
+    public void testBuy() throws Exception {
+        //setup
+        String employeeId = "1";
+        String cardId = "6bb6b4c2c28b11e9";
+        String firstName = "First";
+        String lastName = "Last";
+        String email = "Email";
+        String mobileNo = "075 43875489127";
+        String pin = "8628";
+        double initialBalance = 5.23;
+        double purchaseAmount = 3.70;
+        double finalBalance = initialBalance - purchaseAmount;
+
+        ChangeBalanceRequest changeBalanceRequest = new ChangeBalanceRequest(cardId, purchaseAmount);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String purchaseRequestJson = objectMapper.writeValueAsString(changeBalanceRequest);
+
+        Employee employee = Employee.createNewMemberWithInitialBalance(cardId, employeeId, firstName, lastName, email, mobileNo, pin, finalBalance);
+        EmployeeResource employeeResource = new EmployeeResource(employee);
+        Mockito.when(memberService.buy(changeBalanceRequest)).thenReturn(employeeResource);
+
+        //act
+        mvc.perform(put("/buy").content(purchaseRequestJson).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("employee.employeeId").value(employeeId))
+                .andExpect(jsonPath("employee.cardId", equalTo(cardId)))
+                .andExpect(jsonPath("employee.firstName", equalTo(firstName)))
+                .andExpect(jsonPath("employee.lastName", equalTo(lastName)))
+                .andExpect(jsonPath("employee.email", equalTo(email)))
+                .andExpect(jsonPath("employee.mobileNo", equalTo(mobileNo)))
+                .andExpect(jsonPath("employee.pin", equalTo(pin)))
+                .andExpect(jsonPath("employee.balance", equalTo(finalBalance)));
+    }
+
+    @Test
+    public void testBuyIfInsufficientFunds() throws Exception {
+        //setup
+        String cardId = "6bb6b4c2c28b11e9";
+        double initialBalance = 3.00;
+        double purchaseAmount = 7.00;
+        double finalBalance = initialBalance - purchaseAmount;
+        String insufficientFundsError = "You have insufficient funds to carry out this purchase. Please top up and try again";
+
+        ChangeBalanceRequest purchaseRequest = new ChangeBalanceRequest(cardId, purchaseAmount);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String purchaseRequestJson = objectMapper.writeValueAsString(purchaseRequest);
+
+        Mockito.when(memberService.buy(any(ChangeBalanceRequest.class))).thenThrow(InsufficientFundsException.class);
+
+        //act
+        mvc.perform(put("/buy").content(purchaseRequestJson)
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isBadRequest())
+                .andExpect(mvcResult -> {
+                    assertEquals(insufficientFundsError, mvcResult.getResponse().getErrorMessage());
+                });
     }
 }
