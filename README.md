@@ -2,8 +2,11 @@
 This provides a REST API for registering, topping up and paying for food.
 
 ## Build
-This project is built using java 11. Ensure your JAVA_HOME environment variable is set appropriately:  
+This project is built using maven and java 11 - each must be installed in order to build the project and run. Ensure 
+your JAVA_HOME environment variable is set appropriately:  
 `export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home`
+
+MongoDB must be installed.
 
 Build the project by running `mvn clean install`
 
