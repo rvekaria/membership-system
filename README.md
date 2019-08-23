@@ -18,20 +18,32 @@ Here you can see details of the request format for each endpoint.
 All requests must be authenticated with the unique cardId and the employee's chosen pin.
 
 ### How kiosk clients should use the endpoints
-#### /register
-**Note**: This is the only endpoint which does not require authentication
+There is a 1 minute timeout upon which the client's https session will close and the user will have to re-authenticate.
+The timeout is configurable via the application.properties file.
 
-This endpoint is to be used to initially register a card and an employee with the membership system.
+#### /register
+**Note**: This is the only endpoint which does not require authentication  
+This endpoint is to be used to initially register a card and an employee with the membership system. It is assumed 
+there will be a registration form on the kiosk where the cardId can be filled in by scanning the reader and the employee 
+can fill in the rest of the information by hand.
+
+When this form is submitted, the information will be sent to the /register endpoint.
 
 #### /employee
 This endpoint is to be used upon tapping a card at the kiosk, upon which the employee's details including their current 
 balance will be retrieved.
+
+If the employee's card is unregistered, the response information will contain a message asking them to register. The 
+kiosk client can get and display this message to the user.
 
 #### /topUpBalance
 Use this endpoint to send requests to increase an employee's balance.
 
 ### /buy
 Use this endpoint whenever an employee makes a purchase - has the effect of reducing the employee's balance.
+
+If what the employee is buying costs more than what they have in their balance, the transaction will not happen and 
+the response wil contain a message asking the employee to top up.
 
 ## Run end to end API tests
 The end to end tests are in another project. Clone using:
