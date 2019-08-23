@@ -6,9 +6,8 @@ import ada.synoptic.project.membershipsystem.controller.resource.ChangeBalanceRe
 import ada.synoptic.project.membershipsystem.controller.resource.EmployeeResource;
 import ada.synoptic.project.membershipsystem.controller.resource.RegisterNewEmployeeRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpSession;
@@ -17,41 +16,26 @@ import javax.servlet.http.HttpSession;
 public class MemberController {
 
     private MemberService memberService;
-    private HttpSession currentSession;
     private String sessionId;
 
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
+        this.sessionId = "";
     }
 
     @CrossOrigin()
     @PostMapping("/login")
-    public String login(HttpSession incomingSession) {
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        this.currentSession = attr.getRequest().getSession(true);
+    public EmployeeResource login(HttpSession incomingSession, Authentication authentication) {
         String incomingSessionId = incomingSession.getId();
 
         if (incomingSessionId.equals(this.sessionId)) {
             incomingSession.invalidate();
-            return "Logged out";
+            return new EmployeeResource(null, "Goodbye");
+        } else {
+            this.sessionId = incomingSession.getId();
         }
-        this.sessionId = incomingSession.getId();
-        return "Logged in";
-    }
 
-    @CrossOrigin()
-    @PostMapping("/register")
-    public EmployeeResource registerNewEmployee(@RequestBody RegisterNewEmployeeRequest registerNewEmployeeRequest) {
-        System.out.println(this.currentSession.getId());
-
-        return memberService.registerNewEmployee(registerNewEmployeeRequest);
-    }
-
-    @CrossOrigin()
-    @GetMapping("/employee")
-    public EmployeeResource getEmployeeByCardId(@RequestParam("cardId") String cardId) {
-        System.out.println(this.currentSession.getId());
-
+        String cardId = authentication.getName();
         try {
             return memberService.getEmployeeByCardId(cardId);
         } catch (EmployeeNotFoundException e) {
@@ -60,18 +44,20 @@ public class MemberController {
     }
 
     @CrossOrigin()
+    @PostMapping("/register")
+    public EmployeeResource registerNewEmployee(@RequestBody RegisterNewEmployeeRequest registerNewEmployeeRequest) {
+        return memberService.registerNewEmployee(registerNewEmployeeRequest);
+    }
+
+    @CrossOrigin()
     @PutMapping("/topUpBalance")
     public EmployeeResource topUpBalance(@RequestBody ChangeBalanceRequest changeBalanceRequest) {
-        System.out.println(this.currentSession.getId());
-
         return memberService.topUp(changeBalanceRequest);
     }
 
     @CrossOrigin()
     @PutMapping("/buy")
     public EmployeeResource buyFood(@RequestBody ChangeBalanceRequest changeBalanceRequest) {
-        System.out.println(this.currentSession.getId());
-
         try {
             return memberService.buy(changeBalanceRequest);
         } catch (InsufficientFundsException e) {

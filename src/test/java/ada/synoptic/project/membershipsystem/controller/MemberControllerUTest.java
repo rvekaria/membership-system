@@ -212,4 +212,22 @@ public class MemberControllerUTest {
                     assertEquals(insufficientFundsError, mvcResult.getResponse().getErrorMessage());
                 });
     }
+
+    @Test
+    public void testLogin() throws Exception {
+        //setup
+        String cardId = "6bb6b4c2c28b11e9";
+        String pin = "1234";
+        String loginMessage = "n";
+
+        Mockito.when(memberService.buy(any(ChangeBalanceRequest.class))).thenThrow(InsufficientFundsException.class);
+
+        //act
+        mvc.perform(put("/login")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isBadRequest())
+                .andExpect(mvcResult -> {
+                    assertEquals(loginMessage, mvcResult.getResponse().getErrorMessage());
+                });
+    }
 }
