@@ -1,17 +1,22 @@
-package ada.synoptic.project.membershipsystem.domain;
+package ada.synoptic.project.membershipsystem.controller;
 
-import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
-import ada.synoptic.project.membershipsystem.rest.exception.InsufficientFundsException;
-import ada.synoptic.project.membershipsystem.rest.resource.ChangeBalanceRequest;
-import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
-import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
+import ada.synoptic.project.membershipsystem.controller.exception.EmployeeNotFoundException;
+import ada.synoptic.project.membershipsystem.controller.exception.InsufficientFundsException;
+import ada.synoptic.project.membershipsystem.controller.resource.ChangeBalanceRequest;
+import ada.synoptic.project.membershipsystem.controller.resource.EmployeeResource;
+import ada.synoptic.project.membershipsystem.controller.resource.RegisterNewEmployeeRequest;
+import ada.synoptic.project.membershipsystem.db.EmployeeRepository;
+import ada.synoptic.project.membershipsystem.model.Employee;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 
 @RunWith(SpringRunner.class)
 public class MemberClientUTest {
@@ -55,16 +60,20 @@ public class MemberClientUTest {
         String mobileNo = "075 43875489127";
         String pin = "8628";
         double balance = 0;
-        Employee expectedEmployee = Employee.createNewMember(cardId, employeeId, firstName, lastName, email, mobileNo, pin);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPin = passwordEncoder.encode(pin);
+
+        Employee expectedEmployee = Employee.createNewMemberWithInitialBalance(cardId, employeeId, firstName, lastName, email, mobileNo, encodedPin, balance);
+        EmployeeResource employeeResource = new EmployeeResource(expectedEmployee);
         RegisterNewEmployeeRequest registerNewEmployeeRequest = new RegisterNewEmployeeRequest(cardId, employeeId, firstName, lastName, email, mobileNo, pin, balance);
 
-        Mockito.when(repository.save(expectedEmployee)).thenReturn(expectedEmployee);
+        Mockito.when(repository.save(any(Employee.class))).thenReturn(expectedEmployee);
 
         //act
-        Employee actualEmployee = memberClient.registerNewEmployee(registerNewEmployeeRequest);
+        EmployeeResource actualEmployeeResource = memberClient.registerNewEmployee(registerNewEmployeeRequest);
 
         //assert
-        assertEquals(expectedEmployee, actualEmployee);
+        assertEquals(employeeResource, actualEmployeeResource);
     }
 
     @Test

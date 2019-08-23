@@ -1,12 +1,11 @@
-package ada.synoptic.project.membershipsystem.rest;
+package ada.synoptic.project.membershipsystem.controller;
 
-import ada.synoptic.project.membershipsystem.domain.Employee;
-import ada.synoptic.project.membershipsystem.domain.MemberService;
-import ada.synoptic.project.membershipsystem.rest.exception.EmployeeNotFoundException;
-import ada.synoptic.project.membershipsystem.rest.exception.InsufficientFundsException;
-import ada.synoptic.project.membershipsystem.rest.resource.ChangeBalanceRequest;
-import ada.synoptic.project.membershipsystem.rest.resource.EmployeeResource;
-import ada.synoptic.project.membershipsystem.rest.resource.RegisterNewEmployeeRequest;
+import ada.synoptic.project.membershipsystem.controller.exception.EmployeeNotFoundException;
+import ada.synoptic.project.membershipsystem.controller.exception.InsufficientFundsException;
+import ada.synoptic.project.membershipsystem.controller.resource.ChangeBalanceRequest;
+import ada.synoptic.project.membershipsystem.controller.resource.EmployeeResource;
+import ada.synoptic.project.membershipsystem.controller.resource.RegisterNewEmployeeRequest;
+import ada.synoptic.project.membershipsystem.model.Employee;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,6 +20,12 @@ public class MemberController {
     }
 
     @CrossOrigin()
+    @PostMapping("/register")
+    public EmployeeResource registerNewEmployee(@RequestBody RegisterNewEmployeeRequest registerNewEmployeeRequest) {
+        return memberService.registerNewEmployee(registerNewEmployeeRequest);
+    }
+
+    @CrossOrigin()
     @GetMapping("/employee")
     public EmployeeResource getEmployeeByCardId(@RequestParam("cardId") String cardId) {
         try {
@@ -28,12 +33,6 @@ public class MemberController {
         } catch (EmployeeNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This card is not registered. Please register first to use the service", e);
         }
-    }
-
-    @CrossOrigin()
-    @PostMapping("/register")
-    public Employee registerNewEmployee(@RequestBody RegisterNewEmployeeRequest registerNewEmployeeRequest) {
-        return memberService.registerNewEmployee(registerNewEmployeeRequest);
     }
 
     @CrossOrigin()

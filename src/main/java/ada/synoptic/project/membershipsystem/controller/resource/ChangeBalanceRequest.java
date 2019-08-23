@@ -1,4 +1,4 @@
-package ada.synoptic.project.membershipsystem.rest.resource;
+package ada.synoptic.project.membershipsystem.controller.resource;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

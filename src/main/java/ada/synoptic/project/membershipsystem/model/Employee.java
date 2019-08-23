@@ -1,7 +1,5 @@
-package ada.synoptic.project.membershipsystem.domain;
+package ada.synoptic.project.membershipsystem.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 
 import java.util.Objects;
@@ -17,6 +15,8 @@ public class Employee {
     private String mobileNo;
     private String pin;
     private double balance;
+    private boolean active;
+    private String role;
 
     private Employee(String cardId, String employeeId, String firstName, String lastName, String email, String mobileNo, String pin, double balance) {
         this.cardId = cardId;
@@ -27,6 +27,12 @@ public class Employee {
         this.mobileNo = mobileNo;
         this.pin = pin;
         this.balance = balance;
+        this.active = true;
+        this.role = "USER";
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     public static Employee createNewMemberWithInitialBalance(String cardNumber, String employeeId, String firstName, String lastName, String email, String mobileNo, String pin, double initialBalance) {
@@ -101,24 +107,54 @@ public class Employee {
         this.balance = balance;
     }
 
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
         return Double.compare(employee.balance, balance) == 0 &&
+                active == employee.active &&
                 Objects.equals(cardId, employee.cardId) &&
                 Objects.equals(employeeId, employee.employeeId) &&
                 Objects.equals(firstName, employee.firstName) &&
                 Objects.equals(lastName, employee.lastName) &&
                 Objects.equals(email, employee.email) &&
                 Objects.equals(mobileNo, employee.mobileNo) &&
-                Objects.equals(pin, employee.pin);
+                Objects.equals(pin, employee.pin) &&
+                Objects.equals(role, employee.role);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(cardId, employeeId, firstName, lastName, email, mobileNo, pin, balance);
+        return Objects.hash(cardId, employeeId, firstName, lastName, email, mobileNo, pin, balance, active, role);
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "cardId='" + cardId + '\'' +
+                ", employeeId='" + employeeId + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", mobileNo='" + mobileNo + '\'' +
+                ", pin='" + pin + '\'' +
+                ", balance=" + balance +
+                ", active=" + active +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

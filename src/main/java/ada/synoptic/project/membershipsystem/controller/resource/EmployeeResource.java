@@ -1,6 +1,6 @@
-package ada.synoptic.project.membershipsystem.rest.resource;
+package ada.synoptic.project.membershipsystem.controller.resource;
 
-import ada.synoptic.project.membershipsystem.domain.Employee;
+import ada.synoptic.project.membershipsystem.model.Employee;
 
 import java.util.Objects;
 
