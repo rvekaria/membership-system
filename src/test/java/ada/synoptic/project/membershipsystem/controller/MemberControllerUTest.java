@@ -36,7 +36,7 @@ public class MemberControllerUTest {
     private MemberServiceImpl memberService;
 
     @Test
-    public void testGetEmployeeEndpointIfRegistered() throws Exception {
+    public void testLoginIfRegistered() throws Exception {
         //setup
         String employeeId = "1";
         String cardId = "6bb6b4c2c28b11e9";
@@ -52,7 +52,7 @@ public class MemberControllerUTest {
         Mockito.when(memberService.getEmployeeByCardId(cardId)).thenReturn(employeeResource);
 
         //act
-        mvc.perform(get("/employee?cardId=" + cardId)
+        mvc.perform(post("/login")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("employee.cardId", equalTo(cardId)))
@@ -66,7 +66,7 @@ public class MemberControllerUTest {
     }
 
     @Test
-    public void testGetEmployeeEndpointIfNotRegistered() throws Exception {
+    public void tesLoginIfNotRegistered() throws Exception {
         //setup
         String cardId = "12345678abcdefgh";
         String employeeNotFoundError = "This card is not registered. Please register first to use the service";
@@ -74,7 +74,7 @@ public class MemberControllerUTest {
         Mockito.when(memberService.getEmployeeByCardId(any(String.class))).thenThrow(EmployeeNotFoundException.class);
 
         //act
-        mvc.perform(get("/employee?cardId=" + cardId)
+        mvc.perform(get("/login")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isNotFound())
                 .andExpect(mvcResult -> {
@@ -210,24 +210,6 @@ public class MemberControllerUTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(mvcResult -> {
                     assertEquals(insufficientFundsError, mvcResult.getResponse().getErrorMessage());
-                });
-    }
-
-    @Test
-    public void testLogin() throws Exception {
-        //setup
-        String cardId = "6bb6b4c2c28b11e9";
-        String pin = "1234";
-        String loginMessage = "n";
-
-        Mockito.when(memberService.buy(any(ChangeBalanceRequest.class))).thenThrow(InsufficientFundsException.class);
-
-        //act
-        mvc.perform(put("/login")
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isBadRequest())
-                .andExpect(mvcResult -> {
-                    assertEquals(loginMessage, mvcResult.getResponse().getErrorMessage());
                 });
     }
 }
