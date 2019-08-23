@@ -36,6 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and()
                 .authorizeRequests()
+                .antMatchers("*").hasRole("TEST")
                 .antMatchers("/employee").authenticated()
                 .antMatchers("/topUpBalance").authenticated()
                 .antMatchers("/buy").authenticated()

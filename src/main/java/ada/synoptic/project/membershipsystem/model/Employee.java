@@ -28,7 +28,7 @@ public class Employee {
         this.pin = pin;
         this.balance = balance;
         this.active = true;
-        this.role = "user";
+        this.role = "USER";
     }
 
     public boolean isActive() {
