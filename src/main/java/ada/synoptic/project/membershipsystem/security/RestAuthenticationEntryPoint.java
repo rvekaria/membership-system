@@ -9,8 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public final class RestAuthenticationEntryPoint
-        implements AuthenticationEntryPoint {
+public final class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(
@@ -18,7 +17,6 @@ public final class RestAuthenticationEntryPoint
             HttpServletResponse response,
             AuthenticationException authException) throws IOException {
 
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-                "This card is not registered. Please register first to use the service");
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "This card is not registered. Please register first to use the service");
     }
 }
