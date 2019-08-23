@@ -26,16 +26,17 @@ public class MemberController {
 
     @CrossOrigin()
     @PostMapping("/login")
-    public void login(HttpSession incomingSession) {
+    public String login(HttpSession incomingSession) {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         this.currentSession = attr.getRequest().getSession(true);
         String incomingSessionId = incomingSession.getId();
 
-        if (incomingSessionId.equals(this.sessionId)){
+        if (incomingSessionId.equals(this.sessionId)) {
             incomingSession.invalidate();
+            return "Logged out";
         }
         this.sessionId = incomingSession.getId();
-        System.out.println(incomingSession.getId());
+        return "Logged in";
     }
 
     @CrossOrigin()
