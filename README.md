@@ -1,4 +1,5 @@
 # Membership System
+This provides a REST API for registering, topping up and paying for food.
 
 ## Build
 This project is built using java 11. Ensure your JAVA_HOME environment variable is set appropriately:  
@@ -54,3 +55,12 @@ end to end tests.
 
 The end to end tests are written using a testing automation framework called gauge. You can run the tests by running:
 `mvn clean install`
+
+## Further Configuration
+**Timeout**
+A 1 minute session timeout has been implemented - this can be changed by adjusting the value of `server.servlet.session.timeout` in 
+resources/application.properties
+
+**CORS Security**
+This is currently configured so that it is accessible to all traffic. The host addresses of the kiosk clients should 
+be passed in as a parameter to the @CrossOrigin() annotations in the MemberController class.
