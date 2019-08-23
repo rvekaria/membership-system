@@ -19,6 +19,6 @@ public final class RestAuthenticationEntryPoint
             AuthenticationException authException) throws IOException {
 
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-                "Unauthorized");
+                "This card is not registered. Please register first to use the service");
     }
 }
