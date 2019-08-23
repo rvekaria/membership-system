@@ -12,11 +12,16 @@ Ensure the mongo database is running by running `mongodb`
 
 Start the membership system by running `java -jar target/membership-system-0.0.1-SNAPSHOT.jar`
 
-## Swagger API Documentation
+## API Documentation
+**Swagger**
 Once the application is running, you can view the API documentation at http://localhost:8080/swagger-ui.html  
 Here you can see details of the request format for each endpoint.
+
+**Postman**
+The `Membership System.postman_collection.json` file can be imported into Postman for specific examples on making 
+requests to each endpoint with basic authentication.
   
-All requests must be authenticated with the unique cardId and the employee's chosen pin.
+All requests must use basic authentication using the unique cardId and the employee's chosen pin as the username and password.
 
 ### How kiosk clients should use the endpoints
 There is a 1 minute timeout upon which the client's https session will close and the user will have to re-authenticate.

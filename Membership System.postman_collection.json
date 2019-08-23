@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "2e613aba-2f0d-447d-ae8e-664797311444",
+		"name": "Membership System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Member",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/member?memberId=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"member"
+					],
+					"query": [
+						{
+							"key": "memberId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register New Member",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"cardId\": \"4iq37bt8twvv598\",\n\"employeeId\": \"6\",\n\"firstName\": \"John\",\n\"lastName\": \"Nelson\",\n\"email\": \"John.Nelson@company.com\",\n\"mobileNo\": \"1240172951\",\n\"pin\": \"3142\",\n\"balance\": 0\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Top Up Balance",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "3142",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "4iq37bt8twvv598",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"cardId\": \"4iq37bt8twvv598\",\n\t\"changeAmount\": 5.00\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/topUpBalance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"topUpBalance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buy",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "3142",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "4iq37bt8twvv598",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"cardId\": \"4iq37bt8twvv598\",\n\t\"changeAmount\": 5.00\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/buy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"buy"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
